@@ -7,7 +7,8 @@ namespace TstBits {
         ushort  SCREEN_WIDTH        = 800;
         ushort  SCREEN_HEIGHT       = 480;
         ushort  DEPTH_BITS          = 24;
-        bool    FULLSCREEN          = false;
+        ushort  WINDOW_STYLE        = 7;
+        char*   WINDOW_TITLE        = "Window";
         bool    GL_CORE_PROFILE     = false;
         bool    VERTICAL_SYNC       = true;
         bool    SRGB_MODE           = true;

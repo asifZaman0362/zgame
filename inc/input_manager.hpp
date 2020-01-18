@@ -25,7 +25,7 @@ namespace TstBits
         // Returns the value of the axis with @p name, if registered
         virtual double GetAxis(TstBits::string) const;
 
-        friend class Engine;
+        friend class Application;
     private:
         void AddKeyDown(KeyCode);
         void RemoveKeyDown(KeyCode);
