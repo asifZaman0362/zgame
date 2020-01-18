@@ -2,8 +2,9 @@ project(zgame)
 set(CMAKE_CXX_STANDARD 17)
 cmake_minimum_required(VERSION 3.5)
 
-set(SOURCES)
-set(HEADERS inc/Application.hpp inc/Settings.hpp)
+set(HEADERS inc/Application.hpp inc/Settings.hpp inc/string.hpp 
+inc/logger.hpp inc/input_manager.hpp)
+set(SOURCES src/string.cpp src/logger.cpp src/input_manager.cpp)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/modules)
 include_directories(inc)
