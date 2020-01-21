@@ -10,7 +10,7 @@ set(SOURCES src/Application.cpp src/string.cpp src/logger.cpp
 src/input_manager.cpp src/SceneManager.cpp src/Scene.cpp
 src/Systems/PhysicsManager2D.cpp)
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/modules)
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 include_directories(inc)
 find_package(SFML 2.4.2 COMPONENTS system window graphics audio REQUIRED)
 
