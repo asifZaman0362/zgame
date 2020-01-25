@@ -29,6 +29,10 @@ namespace TstBits {
             
             m_window.create(videoMode, m_settings.WINDOW_TITLE, 
                 m_settings.WINDOW_STYLE, ctxSettings);
+            if (m_settings.VERTICAL_SYNC)
+                m_window.setVerticalSyncEnabled(true);
+            else if (m_settings.FRAMERATE_LIMIT > 0)
+                m_window.setFramerateLimit(m_settings.FRAMERATE_LIMIT);
 
             while(m_window.isOpen()) {
                 sf::Event e;
