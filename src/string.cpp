@@ -227,6 +227,6 @@ string string::format(const char* format, ...) {
     return return_string;
 }
 
-bool string::Compare::operator()(const string& a, const string& b) {
+bool string::Compare::operator()(const string& a, const string& b) const {
     return a < b;
 }

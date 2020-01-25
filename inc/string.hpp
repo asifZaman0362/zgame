@@ -57,7 +57,7 @@ namespace TstBits {
 
         static string format(const char*, ...);
 
-        struct Compare { bool operator()(const string&, const string&); };
+        struct Compare { bool operator()(const string&, const string&) const; };
 
     
     private:
