@@ -16,5 +16,5 @@ find_package(SFML 2.4.2 COMPONENTS system window graphics audio REQUIRED)
 
 add_library(zgame ${HEADERS} ${SOURCES})
 add_executable(zgame-sandbox ${HEADERS} ${SOURCES} main.cpp)
-target_link_libraries(zgame sfml-system sfml-graphics sfml-audio GL)
-target_link_libraries(zgame-sandbox sfml-system sfml-graphics sfml-audio GL)
+target_link_libraries(zgame sfml-system sfml-window sfml-graphics sfml-audio GL)
+target_link_libraries(zgame-sandbox sfml-system sfml-window sfml-graphics sfml-audio GL)
