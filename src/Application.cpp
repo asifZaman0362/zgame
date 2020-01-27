@@ -35,7 +35,7 @@ namespace TstBits {
                 m_window.setFramerateLimit(m_settings.FRAMERATE_LIMIT);
 
             while(m_window.isOpen()) {
-                sf::Event e;
+                sf::Event e{};
                 while(m_window.pollEvent(e)) {
                     ProcessInput(e);
                 }

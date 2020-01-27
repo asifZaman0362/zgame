@@ -17,13 +17,13 @@ string::string(const double d) : std_string(std::to_string(d)) {}
 /********* ADDITION OPERATOR ********/
 /**** string + string/int/double ****/
 
-string string::operator+(const string right) const {
+string string::operator+(const string& right) const {
     string str_to_return;
     str_to_return.std_string = this->std_string + right.std_string;
     return str_to_return;
 }
 
-string string::operator+(const std::string right) const {
+string string::operator+(const std::string& right) const {
     string str_to_return;
     str_to_return.std_string = this->std_string + right;
     return str_to_return;
@@ -53,12 +53,12 @@ string string::operator+(const char right) const {
     return str_to_return;
 }
 
-string& string::operator+=(const string right) {
+string& string::operator+=(const string& right) {
     this->std_string = this->std_string + right.std_string;
     return *this;
 }
 
-string& string::operator+=(const std::string right) {
+string& string::operator+=(const std::string& right) {
     this->std_string = this->std_string + right;
     return *this;
 }
@@ -114,7 +114,7 @@ string& string::operator=(const string& other) {
     return *this;
 }
 
-string& string::operator=(const std::string other) {
+string& string::operator=(const std::string& other) {
     this->std_string = other;
     return *this;
 }
@@ -189,7 +189,7 @@ void string::clear() {
     std_string.clear();
 }
 
-string string::join(std::vector<string> list, char joiner) {
+string string::join(const std::vector<string>& list, char joiner) {
     string return_string;
     const int len = list.size();
     for(int i = 0; i < len; i++) {

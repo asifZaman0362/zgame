@@ -14,15 +14,15 @@ namespace TstBits {
         string(const double);
         ~string() = default;
 
-        string operator+(const string) const;
-        string operator+(const std::string) const;
+        string operator+(const string&) const;
+        string operator+(const std::string&) const;
         string operator+(const char*) const;
         string operator+(const int) const;
         string operator+(const double) const;
         string operator+(const char) const;
 
-        string& operator+=(const string);
-        string& operator+=(const std::string);
+        string& operator+=(const string&);
+        string& operator+=(const std::string&);
         string& operator+=(const char*);
         string& operator+=(const int);
         string& operator+=(const double);
@@ -32,7 +32,7 @@ namespace TstBits {
         string& operator*=(const int);
 
         string& operator=(const string&);
-        string& operator=(const std::string);
+        string& operator=(const std::string&);
         string& operator=(const char*);
         string& operator=(const int);
         string& operator=(const double);
@@ -53,7 +53,7 @@ namespace TstBits {
         
         void clear();
 
-        static string join(std::vector<string>, char='\0');
+        static string join(const std::vector<string>&, char='\0');
 
         static string format(const char*, ...);
 
