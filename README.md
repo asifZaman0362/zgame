@@ -3,7 +3,7 @@
 zgame is a lightweight game engine written in C/C++ with SFML(Simple & Fast Multimedia Library).
 It primarily targets Linux systems but can run on Windows and Mac as well. Currently, it only features
 2D rendering but with some OpenGL knowledge it can be extended to work with 3D as well. Feel free to 
-comtribute your work to this project.
+contribute your work to this project.
 
 # FABQ's
 
