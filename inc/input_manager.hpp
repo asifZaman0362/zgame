@@ -23,7 +23,7 @@ namespace ze
         virtual bool IsKeyHeld(KeyCode) const;
 
         // Returns the value of the axis with @p name, if registered
-        virtual double GetAxis(TstBits::string) const;
+        virtual double GetAxis(ze::string) const;
 
         friend class Application;
     private:

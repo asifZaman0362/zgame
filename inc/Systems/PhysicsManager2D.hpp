@@ -20,7 +20,7 @@ namespace ze {
         void PopFront();
         void Update(const float);
         void ClearList();
-
+    
     private:
         static std::list<RigidBody> m_objects;
 

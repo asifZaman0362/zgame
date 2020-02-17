@@ -28,7 +28,7 @@ namespace ze {
     void PhysicsManager2D::Update(const float fdt) {
         for (auto &obj : m_objects) {
             if (obj != nullptr) {
-                obj.position.y += 9.8f;
+                obj->m_transform->m_position.y += 9.8f;
             }
         }
     }

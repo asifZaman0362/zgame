@@ -1,7 +1,7 @@
 #include <memory>
 
 namespace ze {
-    class Component {
+    struct Component {
     public:
         Component(std::weak_ptr<int> objectId) : m_objectId(std::move(objectId)) {}
     private:

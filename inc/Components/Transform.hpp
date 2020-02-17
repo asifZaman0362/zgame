@@ -2,6 +2,7 @@
 
 namespace ze {
     class Transform {
+        friend class PhysicsManager2D;
     public:
         Transform(sf::Vector2f pos, sf::Vector2f scale, float rot) {
             this->m_position = pos;

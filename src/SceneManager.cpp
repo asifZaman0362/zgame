@@ -11,7 +11,7 @@ namespace ze {
         DestroyAll();
     }
 
-    void SceneManager::LoadScene(ScenePtr scene, bool replace) {
+    void SceneManager::LoadScene(const ScenePtr scene, bool replace) {
         if ((m_scenes.size() >= MAX_SCENES_RUNNING || replace) && !m_scenes.empty()) {
             if (m_scenes.size() >= MAX_SCENES_RUNNING)
                 Logger::LogErr("SCENE STACK OVERFLOW!! POPPING TOP SCENE!");

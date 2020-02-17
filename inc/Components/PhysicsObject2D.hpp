@@ -8,10 +8,13 @@ namespace ze {
 
     class PhysicsObject2D : public Component {
 
+    private:
+        Transform* m_transform;
+
     public:
-        PhysicsObject2D(const std::weak_ptr<int> id) :
-            Component(std::move(id)) {
-                if (true) return;
+        PhysicsObject2D(const std::weak_ptr<int> id, const Transform* transform) :
+            Component(std::move(id)), m_transform(const_cast<Transform*>(transform)) {
+                
         }
 
         friend class PhysicsManager2D;
