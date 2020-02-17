@@ -1,7 +1,7 @@
 #include "Systems/PhysicsManager2D.hpp"
 #include "Components/PhysicsObject2D.hpp"
 
-namespace TstBits {
+namespace ze {
 
     std::list<RigidBody> PhysicsManager2D::m_objects;
 
@@ -26,9 +26,9 @@ namespace TstBits {
     }
 
     void PhysicsManager2D::Update(const float fdt) {
-        for (auto obj : m_objects) {
+        for (auto &obj : m_objects) {
             if (obj != nullptr) {
-                //obj->m_position.y += 9.8f;
+                obj.position.y += 9.8f;
             }
         }
     }

@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-namespace TstBits {
+namespace ze {
     // A container for std::string with some additional features
     class string {
     public:
@@ -27,7 +27,7 @@ namespace TstBits {
         string& operator+=(const int);
         string& operator+=(const double);
         string& operator+=(const char);
-        
+
         string operator*(const int);
         string& operator*=(const int);
 
@@ -50,7 +50,7 @@ namespace TstBits {
         const char* c_str() const;
 
         std::vector<string> split(char, int=0) const;
-        
+
         void clear();
 
         static string join(const std::vector<string>&, char='\0');
@@ -59,7 +59,7 @@ namespace TstBits {
 
         struct Compare { bool operator()(const string&, const string&) const; };
 
-    
+
     private:
         std::string std_string;
 

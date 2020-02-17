@@ -2,12 +2,12 @@
 #include <vector>
 #include <SFML/Graphics/Color.hpp>
 
-namespace sf { 
-    class RenderTarget; 
+namespace sf {
+    class RenderTarget;
     class Drawable;
 }
 
-namespace TstBits {
+namespace ze {
     class Scene {
     public:
         Scene();

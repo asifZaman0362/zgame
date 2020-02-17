@@ -3,9 +3,9 @@
 #include <iostream>
 #include <fstream>
 
-using TstBits::Logger;
-using TstBits::string;
-using TstBits::object;
+using ze::Logger;
+using ze::string;
+using ze::object;
 
 std::vector<string> Logger::messages;
 

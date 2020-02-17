@@ -5,14 +5,14 @@ namespace sf {
     class RenderTarget;
 }
 
-namespace TstBits {
+namespace ze {
 
     class Scene;
 
     #define MAX_SCENES_RUNNING 2
     using sf::RenderTarget;
     typedef std::unique_ptr<Scene> ScenePtr;
-    
+
     class SceneManager {
     public:
         SceneManager() = delete;

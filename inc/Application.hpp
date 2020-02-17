@@ -5,14 +5,14 @@ namespace sf {
     class Event;
 }
 
-namespace TstBits {
+namespace ze {
     class Settings;
     class Application {
-    
+
     public:
         Application(const Settings&);
         ~Application();
-        
+
         void Run();
         void Stop();
 

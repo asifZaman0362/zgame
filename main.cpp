@@ -1,8 +1,8 @@
 #include <Application.hpp>
 
 int main() {
-    TstBits::Settings settings;
-    TstBits::Application app(settings);
+    ze::Settings settings;
+    ze::Application app(settings);
     app.Run();
     return 0;
 }

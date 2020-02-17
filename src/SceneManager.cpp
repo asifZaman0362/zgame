@@ -3,8 +3,8 @@
 #include "SceneManager.hpp"
 #include "Scene.hpp"
 
-namespace TstBits {
-    
+namespace ze {
+
     std::stack<ScenePtr> SceneManager::m_scenes;
 
     SceneManager::~SceneManager() {
@@ -15,7 +15,7 @@ namespace TstBits {
         if ((m_scenes.size() >= MAX_SCENES_RUNNING || replace) && !m_scenes.empty()) {
             if (m_scenes.size() >= MAX_SCENES_RUNNING)
                 Logger::LogErr("SCENE STACK OVERFLOW!! POPPING TOP SCENE!");
-            
+
             m_scenes.top().reset();
             m_scenes.pop();
         } else if (!m_scenes.empty()) m_scenes.top()->OnPause();
@@ -25,7 +25,7 @@ namespace TstBits {
 
     void SceneManager::RemoveScene() {
         // Git good or git rekt
-        if (m_scenes.empty()) 
+        if (m_scenes.empty())
             Logger::LogErr("You on drugs bro? There are no friggin scenes");
         else {
             m_scenes.top().reset();
@@ -35,13 +35,13 @@ namespace TstBits {
     }
 
     void SceneManager::UpdateScene(float dt) {
-        if (m_scenes.empty() || m_scenes.top() == nullptr) 
+        if (m_scenes.empty() || m_scenes.top() == nullptr)
             Logger::LogErr("No Scene to render!");
         m_scenes.top()->OnUpdate(dt);
     }
 
     void SceneManager::DrawScene(RenderTarget& target) {
-        if (m_scenes.empty() || m_scenes.top() == nullptr) 
+        if (m_scenes.empty() || m_scenes.top() == nullptr)
             Logger::LogErr("No Scene to render!");
         m_scenes.top()->OnRender(target);
     }

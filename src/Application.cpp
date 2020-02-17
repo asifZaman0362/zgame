@@ -3,9 +3,9 @@
 #include "logger.hpp"
 #include <SFML/Window/Event.hpp>
 
-namespace TstBits {
+namespace ze {
 
-    Application::Application(const Settings& settings) 
+    Application::Application(const Settings& settings)
         : m_settings(settings) {}
 
     Application::~Application() {}
@@ -14,7 +14,7 @@ namespace TstBits {
         m_isRunning = true;
         Logger::LogMsg("Started Application");
         while (m_isRunning) {
-            
+
             sf::VideoMode videoMode;
             videoMode.width = m_settings.SCREEN_WIDTH;
             videoMode.height = m_settings.SCREEN_HEIGHT;
@@ -24,10 +24,10 @@ namespace TstBits {
             ctxSettings.minorVersion = m_settings.GL_VERSION_MINOR;
             ctxSettings.sRgbCapable = m_settings.SRGB_MODE;
             ctxSettings.depthBits = m_settings.DEPTH_BITS;
-            ctxSettings.attributeFlags = m_settings.GL_CORE_PROFILE ? 
+            ctxSettings.attributeFlags = m_settings.GL_CORE_PROFILE ?
                 sf::ContextSettings::Core : sf::ContextSettings::Default;
-            
-            m_window.create(videoMode, m_settings.WINDOW_TITLE, 
+
+            m_window.create(videoMode, m_settings.WINDOW_TITLE,
                 m_settings.WINDOW_STYLE, ctxSettings);
             if (m_settings.VERTICAL_SYNC)
                 m_window.setVerticalSyncEnabled(true);

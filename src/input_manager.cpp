@@ -1,8 +1,8 @@
 #include "input_manager.hpp"
 #include <SFML/Window/Keyboard.hpp>
 
-using TstBits::InputManager;
-using TstBits::string;
+using ze::InputManager;
+using ze::string;
 
 std::map<string, double, string::Compare> InputManager::m_axes;
 std::list<KeyCode> InputManager::m_keysDownThisFrame;

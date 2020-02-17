@@ -8,7 +8,7 @@
 
 typedef sf::Keyboard::Key KeyCode; // Change to other type if not using SFML
 
-namespace TstBits
+namespace ze
 {
     // A basic input handler class
     class InputManager {
@@ -34,4 +34,3 @@ namespace TstBits
         static std::list<KeyCode> m_keysUpThisFrame;
     };
 }
-

@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-namespace TstBits
+namespace ze
 {
     class string;
     class object;

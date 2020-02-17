@@ -2,10 +2,10 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 
-namespace TstBits {
+namespace ze {
 
     Scene::Scene() {
-        
+
     }
 
     Scene::~Scene() {

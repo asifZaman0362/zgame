@@ -1,13 +1,13 @@
 #include <list>
 #include <memory>
 
-namespace TstBits {
-    
+namespace ze {
+
     class PhysicsObject2D;
     typedef std::shared_ptr<PhysicsObject2D> RigidBody;
 
     class PhysicsManager2D {
-    
+
     public:
         PhysicsManager2D() = delete;
         ~PhysicsManager2D() = delete;
@@ -23,7 +23,7 @@ namespace TstBits {
 
     private:
         static std::list<RigidBody> m_objects;
-    
+
     };
 
 }

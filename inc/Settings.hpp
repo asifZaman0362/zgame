@@ -1,4 +1,4 @@
-namespace TstBits {
+namespace ze {
     typedef unsigned short ushort;
     struct Settings {
         ushort  GL_VERSION_MAJOR    = 1;

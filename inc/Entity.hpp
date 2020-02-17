@@ -1,7 +1,7 @@
 #include <list>
 #include <memory>
 
-namespace TstBits {
+namespace ze {
     
     class Component;
     typedef std::shared_ptr<Component> ComponentRef;
@@ -22,7 +22,7 @@ namespace TstBits {
 
         template <typename T> void RemoveComponent() {
             for (auto i : m_components) {
-                if (typeid(i.get()) == typeid(T)) m_components.remove(i); 
+                if (typeid(i.get()) == typeid(T)) m_components.remove(i);
             }
         }
 

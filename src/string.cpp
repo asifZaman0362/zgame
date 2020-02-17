@@ -4,7 +4,7 @@
 #include <cstdarg>
 
 
-using TstBits::string;
+using ze::string;
 
 string::string() : std_string("") {}
 string::string(const char* str) : std_string(str) {}
@@ -169,7 +169,7 @@ const char* string::c_str() const {
 }
 
 std::vector<string> string::split(char delimiter, int limit) const {
-    
+
     std::vector<string> return_vector;
     const int len = length();
     const char* arr = c_str();

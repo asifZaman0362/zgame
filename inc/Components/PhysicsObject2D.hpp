@@ -4,12 +4,12 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <memory>
 
-namespace TstBits {
-    
+namespace ze {
+
     class PhysicsObject2D : public Component {
 
     public:
-        PhysicsObject2D(const std::weak_ptr<int> id) : 
+        PhysicsObject2D(const std::weak_ptr<int> id) :
             Component(std::move(id)) {
                 if (true) return;
         }
