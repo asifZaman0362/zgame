@@ -1,12 +1,14 @@
 #include "Component.hpp"
+#include <list>
 
 namespace ze {
-    enum ColliderType { Box, Circle, Polygon };
+    enum ColliderType { Rectangle, Circle, Polygon };
     struct Collider2D : public Component {
     public:
         Collider2D(const std::weak_ptr<int> object_id) : Component(std::move(object_id)) {}
         ~Collider2D();
-	ColliderType m_type;
-	friend class CollisionManager;
+        virtual bool IsColliding(Collider2D*) = 0;
+        virtual ColliderType GetType() = 0;
+        std::list<std::weak_ptr<Collider2D>> m_contacts;
     };
 }

@@ -7,6 +7,12 @@ namespace ze {
     public:
         CircleCollider(const std::weak_ptr<int> object_id) : Collider2D(std::move(object_id)) {}
         ~CircleCollider() {}
+        sf::Vector2f GetPosition() {
+            return m_position;
+        }
+        float GetRadius() {
+            return m_radius;
+        }
     private:
         sf::Vector2f m_position;
         float m_radius;

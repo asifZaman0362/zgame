@@ -1,4 +1,7 @@
 #include "Systems/CollisionManager2D.hpp"
+#include "Components/BoxCollider.hpp"
+#include "Components/CircleCollider.hpp"
+#include <SFML/Graphics/Rect.hpp>
 
 namespace ze {
     void CollisionManager::AddCollider(const Collider coll) {
@@ -16,7 +19,11 @@ namespace ze {
     void CollisionManager::ClearList() {
         m_colliders.clear();
     }
-    void CollisionManager::Update() {
-        
+    void CollisionManager::Update(const Collider& coll) {
+        for (auto &other : m_colliders) {
+            if (coll != other) {
+                coll->IsColliding(other.get());
+            }
+        }
     }
 }
