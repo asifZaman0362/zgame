@@ -7,9 +7,9 @@ inc/input_manager.hpp inc/SceneManager.hpp inc/Scene.hpp inc/Entity.hpp
 inc/Systems/PhysicsManager2D.hpp inc/Components/Component.hpp inc/Components/Transform.hpp
 inc/Components/PhysicsObject2D.hpp inc/Components/Collider2D.hpp inc/Components/BoxCollider.hpp
 inc/Components/CircleCollider.hpp inc/Components/PolygonCollider.hpp inc/Systems/CollisionManager2D.hpp)
-set(SOURCES src/Application.cpp src/string.cpp src/logger.cpp 
-src/input_manager.cpp src/SceneManager.cpp src/Scene.cpp
-src/Systems/PhysicsManager2D.cpp src/Systems/CollisionManager2D.cpp)
+set(SOURCES src/Application.cpp src/string.cpp src/logger.cpp src/input_manager.cpp src/SceneManager.cpp 
+src/Scene.cpp src/Systems/PhysicsManager2D.cpp src/Systems/CollisionManager2D.cpp 
+src/Components/CircleCollider.cpp src/Components/BoxCollider.cpp)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 include_directories(inc)

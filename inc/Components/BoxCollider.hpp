@@ -10,31 +10,11 @@ namespace ze {
     public:
         BoxCollider(const std::weak_ptr<int> object_id) : Collider2D(std::move(object_id)) {}
         
-        bool IsColliding(Collider2D* other) override {
-            
-            bool colliding = false;
-            if (other->GetType() == ColliderType::Rectangle) {
-                BoxCollider* other_box = dynamic_cast<BoxCollider*>(other);
-                colliding = this->m_aabb.intersects(other_box->GetRect());
-            } else if (other->GetType() == ColliderType::Circle) {
-                CircleCollider* other_circle = dynamic_cast<CircleCollider*>(other);
-                colliding = other_circle->IsColliding(this);
-            }
-            if (colliding) {
-                this->m_contacts.push_back(std::make_shared<Collider2D>(other));
-                other->m_contacts.push_back(std::make_shared<Collider2D>(this));
-            }
-            return colliding;
+        bool IsColliding(Collider2D*);
 
-        }
+        ColliderType GetType();
 
-        ColliderType GetType() {
-            return ColliderType::Rectangle;
-        }
-
-        sf::FloatRect GetRect() {
-            return m_aabb;
-        }
+        sf::FloatRect GetRect();
 
     private:
         sf::FloatRect m_aabb;
