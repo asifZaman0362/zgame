@@ -10,9 +10,9 @@ namespace ze {
     public:
         BoxCollider(const std::weak_ptr<int> object_id) : Collider2D(std::move(object_id)) {}
         
-        bool IsColliding(Collider2D*);
+        bool IsColliding(Collider2D*) override;
 
-        ColliderType GetType();
+        ColliderType GetType() override;
 
         sf::FloatRect GetRect();
 
