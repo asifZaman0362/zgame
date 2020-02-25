@@ -1,3 +1,4 @@
+#pragma once
 namespace ze {
     typedef unsigned short ushort;
     struct Settings {

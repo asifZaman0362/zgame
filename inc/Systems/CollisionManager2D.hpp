@@ -1,3 +1,4 @@
+#pragma once
 #include "../Components/Collider2D.hpp"
 #include <list>
 #include <memory>

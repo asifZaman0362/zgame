@@ -1,3 +1,4 @@
+#pragma once
 #include "Components/Component.hpp"
 #include "Components/Transform.hpp"
 #include <SFML/System/Vector2.hpp>
