@@ -64,4 +64,5 @@ namespace ze {
         std::string std_string;
 
     };
+    const char* operator+(const char*, const string&);
 }

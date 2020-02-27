@@ -1,6 +1,8 @@
 #include "Application.hpp"
 #include "input_manager.hpp"
 #include "logger.hpp"
+#include "SceneManager.hpp"
+#include "EmptyScene.hpp"
 #include <SFML/Window/Event.hpp>
 
 namespace ze {
@@ -13,6 +15,7 @@ namespace ze {
     void Application::Run() {
         m_isRunning = true;
         Logger::LogMsg("Started Application");
+        SceneManager::LoadScene(std::make_unique<EmptyScene>());
         while (m_isRunning) {
 
             sf::VideoMode videoMode;
@@ -38,6 +41,7 @@ namespace ze {
                 sf::Event e{};
                 while(m_window.pollEvent(e)) {
                     ProcessInput(e);
+                    if (!m_isRunning) return;
                 }
                 m_clock.restart();
                 Update(m_clock.getElapsedTime().asSeconds());
@@ -51,7 +55,7 @@ namespace ze {
         m_isRunning = false;
         if (m_window.isOpen()) {
             m_window.close();
-            // SceneManager.DestroyAll();
+            SceneManager::DestroyAll();
         }
     }
 
@@ -64,9 +68,11 @@ namespace ze {
     }
 
     void Application::Update(const float& dt) {
+        SceneManager::UpdateScene(dt);
     }
 
     void Application::Draw() {
+        SceneManager::DrawScene(m_window);
         m_window.display();
     }
 }

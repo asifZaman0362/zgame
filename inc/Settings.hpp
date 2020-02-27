@@ -9,7 +9,7 @@ namespace ze {
         ushort  SCREEN_HEIGHT       = 480;
         ushort  DEPTH_BITS          = 24;
         ushort  WINDOW_STYLE        = 7;
-        char*   WINDOW_TITLE        = "Window";
+        char*   WINDOW_TITLE        = (char*)"Window";
         bool    GL_CORE_PROFILE     = false;
         bool    VERTICAL_SYNC       = true;
         bool    SRGB_MODE           = true;

@@ -14,10 +14,10 @@ void Logger::LogMsg(const string& msg) {
     std::cout << msg.c_str() << std::endl;
 }
 
-// void Logger::LogMsg(const char* msg) {
-//     messages.push_back(msg);
-//     std::cout << msg << std::endl;
-// }
+void Logger::LogMsg(const char* msg) {
+    messages.push_back(msg);
+    std::cout << msg << std::endl;
+}
 
 void Logger::LogMsg(const string& msg, const object& obj) {
     messages.push_back(msg);
@@ -34,10 +34,10 @@ void Logger::LogErr(const string& err_msg) {
     std::cerr << err_msg.c_str() << std::endl;
 }
 
-// void Logger::LogErr(const char* err_msg) {
-//     messages.push_back(err_msg);
-//     std::cerr << err_msg << std::endl;
-// }
+void Logger::LogErr(const char* err_msg) {
+    messages.push_back(err_msg);
+    std::cerr << err_msg << std::endl;
+}
 
 void Logger::LogErr(const string& err_msg, const object& obj) {
     messages.push_back(err_msg);

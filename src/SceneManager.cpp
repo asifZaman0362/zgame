@@ -1,4 +1,3 @@
-#include "string.hpp"
 #include "logger.hpp"
 #include "SceneManager.hpp"
 #include "Scene.hpp"
@@ -35,21 +34,24 @@ namespace ze {
     }
 
     void SceneManager::UpdateScene(float dt) {
-        if (m_scenes.empty() || m_scenes.top() == nullptr)
-            Logger::LogErr("No Scene to render!");
+        if (m_scenes.empty() || m_scenes.top() == nullptr) {
+            Logger::LogErr("No Scene to update!");
+            return;
+        }
         m_scenes.top()->OnUpdate(dt);
     }
 
     void SceneManager::DrawScene(RenderTarget& target) {
-        if (m_scenes.empty() || m_scenes.top() == nullptr)
+        if (m_scenes.empty() || m_scenes.top() == nullptr) {
             Logger::LogErr("No Scene to render!");
+            return;
+        }
         m_scenes.top()->OnRender(target);
     }
 
     void SceneManager::DestroyAll() {
         while (!m_scenes.empty()) {
             m_scenes.top()->OnStop();
-            m_scenes.top().reset();
             m_scenes.pop();
         }
     }

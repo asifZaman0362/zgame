@@ -20,6 +20,6 @@ namespace ze {
         virtual void OnRender(sf::RenderTarget&);
     protected:
         std::vector<sf::Drawable*> m_drawables;
-        sf::Color m_clearColor;
+        sf::Color m_clearColor = sf::Color::Black;
     };
 }

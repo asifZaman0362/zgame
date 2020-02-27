@@ -10,8 +10,10 @@ namespace ze {
 
     Scene::~Scene() {
         for (sf::Drawable* item : m_drawables) {
-            delete item;
-            m_drawables.pop_back();
+            if(item != nullptr) {
+                delete item;
+                m_drawables.pop_back();
+            }
         }
     }
 

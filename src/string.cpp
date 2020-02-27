@@ -53,6 +53,10 @@ string string::operator+(const char right) const {
     return str_to_return;
 }
 
+const char* operator+(const char* left, const string& right) {
+    return (string(left) + right).c_str();
+}
+
 string& string::operator+=(const string& right) {
     this->std_string = this->std_string + right.std_string;
     return *this;
