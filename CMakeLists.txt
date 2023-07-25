@@ -8,9 +8,11 @@ link_directories(lib)
 set(OPENGL_FILES opengl/src/glad.c)
 
 set(SOURCE_FILES 
-    zgame/src/main.cc zgame/src/shader.cc zgame/src/shader.hpp
+    zgame/src/main.cpp zgame/src/shader.cpp zgame/src/shader.hpp
     zgame/src/game.hpp zgame/src/game.cpp zgame/src/window.hpp 
     zgame/src/window.cpp zgame/src/triangle.hpp zgame/src/triangle.cpp
+    zgame/src/mesh.hpp zgame/src/mesh.cpp zgame/src/assetmanager.hpp
+    zgame/src/assetmanager.cpp
 )
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES} ${OPENGL_FILES})
 #file(COPY zgame/res DESTINATION .)
