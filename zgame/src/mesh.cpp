@@ -5,16 +5,23 @@
 #include "logger.hpp"
 
 namespace zifmann::zgame::core {
-Mesh::Mesh(std::vector<float> verts, std::vector<int> tris,
+Mesh::Mesh(std::vector<vec3f> verts, std::vector<int> tris,
            AssetManager::ShaderProgram shader) {
     triangle_count = tris.size();
-    vertex_count = verts.size();
+    vertex_count = verts.size() * 3;
+    float vertices[vertex_count];
+    int i = 0;
+    for (auto& vert : verts) {
+        vertices[i++] = vert.x;
+        vertices[i++] = vert.y;
+        vertices[i++] = vert.z;
+    }
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
     unsigned int vbo;
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, verts.size() * sizeof(float), &verts[0],
+    glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float), vertices,
                  GL_STATIC_DRAW);
     unsigned int ebo;
     glGenBuffers(1, &ebo);

@@ -1,10 +1,22 @@
 #include "assetmanager.hpp"
 
 #include "logger.hpp"
+#include "obj.hpp"
 #include "shader.hpp"
 
 namespace zifmann::zgame::core {
 namespace AssetManager {
+
+// TODO: use shared ptr?
+static std::unordered_map<std::string, std::shared_ptr<Texture>> texture_files;
+static std::unordered_map<std::string, std::shared_ptr<SoundBuffer>>
+    audio_files;
+static std::unordered_map<std::string, std::shared_ptr<Font>> font_files;
+static std::unordered_map<std::string, std::shared_ptr<Shader>> shaders;
+static std::unordered_map<std::string, std::shared_ptr<ShaderProgram>>
+    shader_programs;
+static std::unordered_map<std::string, std::shared_ptr<obj_loader::ObjData>>
+    obj_models;
 
 std::weak_ptr<Texture> LoadTexture(const std::string& name) {
     if (texture_files[name])
@@ -73,6 +85,21 @@ std::weak_ptr<ShaderProgram> LoadShaderProgram(const std::string& vert,
     return shaders[fullname];
 }
 
+std::weak_ptr<obj_loader::ObjData> LoadObjModel(const std::string& path) {
+    if (obj_models[path]) {
+        return obj_models[path];
+    } else {
+        obj_loader::ObjData data;
+        auto res = obj_loader::load_file(path, data);
+        if (res != obj_loader::ObjLoadStatus::Success) {
+            log_error("Failed to load obj model!");
+            return std::weak_ptr<obj_loader::ObjData>();
+        }
+        obj_models[path] = std::make_shared<obj_loader::ObjData>(data);
+        return obj_models[path];
+    }
+}
+
 void DeleteTexture(const std::string& name) {
     if (texture_files[name]) {
         texture_files.erase(name);
@@ -88,6 +115,12 @@ void DeleteAudio(const std::string& name) {
 void DeleteFont(const std::string& name) {
     if (font_files[name]) {
         font_files.erase(name);
+    }
+}
+
+void DeleteObjModel(const std::string& path) {
+    if (obj_models[path]) {
+        obj_models.erase(path);
     }
 }
 

@@ -15,7 +15,7 @@ class Mesh {
     AssetManager::ShaderProgram shader;  // TODO: convert to material
 
    public:
-    Mesh(std::vector<float> vertices, std::vector<int> triangles,
+    Mesh(std::vector<vec3f> vertices, std::vector<int> triangles,
          AssetManager::ShaderProgram shader);
     ~Mesh();
     void draw();

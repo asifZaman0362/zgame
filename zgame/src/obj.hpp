@@ -3,10 +3,23 @@
 
 #include <fstream>
 #include <string>
+#include <vector>
+
+#include "types.hpp"
+
 namespace zifmann::zgame::core::obj_loader {
+
 typedef unsigned int uint;
+
+struct ObjData {
+    std::vector<vec3f> vertices;
+    std::vector<vec2f> uvs;
+    std::vector<vec3f> normals;
+    std::vector<vec3<vec3i>> faces;
+};
+
 enum ObjLoadStatus { Success, ReadError, ParseError };
-ObjLoadStatus load_file(const std::string& path);
+ObjLoadStatus load_file(const std::string& path, ObjData& dest);
 }  // namespace zifmann::zgame::core::obj_loader
 
 #endif

@@ -10,10 +10,10 @@
 #include "types.hpp"
 #include "utils.hpp"
 
-#define opt(a) (a == std::nullopt ? "none" : std::to_string(a.value()))
+#define opt(a) (a == -1 ? "" : std::to_string(a))
 
 namespace zifmann::zgame::core::obj_loader {
-ObjLoadStatus load_file(const std::string& path) {
+ObjLoadStatus load_file(const std::string& path, ObjData& dest) {
     using namespace zifmann::zgame::core::utils::string;
     std::ifstream file(path);
     if (!file.is_open()) {
@@ -22,7 +22,7 @@ ObjLoadStatus load_file(const std::string& path) {
     std::vector<vec3f> vertices;
     std::vector<vec3f> normals;
     std::vector<vec2f> uvs;
-    std::vector<vec3<vec3<std::optional<uint>>>> faces;
+    std::vector<vec3<vec3i>> faces;
 
     std::string line;
     while (!file.eof()) {
@@ -55,37 +55,26 @@ ObjLoadStatus load_file(const std::string& path) {
                 auto v1tokens = split_str(tokens[1], "/");
                 auto v2tokens = split_str(tokens[2], "/");
                 auto v3tokens = split_str(tokens[3], "/");
-                vec3<std::optional<uint>> v1, v2, v3;
+                // vec3<std::optional<uint>> v1, v2, v3;
+                vec3i v1, v2, v3;
                 if (v1tokens.size() == 1) {
-                    v1 = {std::optional(std::stoi(v1tokens[0])), std::nullopt,
-                          std::nullopt};
-                    v2 = {std::optional(std::stoi(v2tokens[0])), std::nullopt,
-                          std::nullopt};
-                    v3 = {std::optional(std::stoi(v3tokens[0])), std::nullopt,
-                          std::nullopt};
+                    v1 = {std::stoi(v1tokens[0]), -1, -1};
+                    v2 = {std::stoi(v2tokens[0]), -1, -1};
+                    v3 = {std::stoi(v3tokens[0]), -1, -1};
                 } else if (v1tokens.size() == 2) {
-                    v1 = {std::optional(std::stoi(v1tokens[0])),
-                          std::optional(std::stoi(v1tokens[1])), std::nullopt};
-                    v2 = {std::optional(std::stoi(v2tokens[0])),
-                          std::optional(std::stoi(v2tokens[1])), std::nullopt};
-                    v3 = {std::optional(std::stoi(v3tokens[0])),
-                          std::optional(std::stoi(v3tokens[1])), std::nullopt};
+                    v1 = {std::stoi(v1tokens[0]), std::stoi(v1tokens[1]), -1};
+                    v2 = {std::stoi(v2tokens[0]), std::stoi(v2tokens[1]), -1};
+                    v3 = {std::stoi(v3tokens[0]), std::stoi(v3tokens[1]), -1};
                 } else {
-                    v1 = {std::optional(std::stoi(v1tokens[0])),
-                          !v1tokens[1].empty()
-                              ? std::optional(std::stoi(v1tokens[1]))
-                              : std::nullopt,
-                          std::optional(std::stoi(v1tokens[2]))};
-                    v2 = {std::optional(std::stoi(v2tokens[0])),
-                          !v2tokens[1].empty()
-                              ? std::optional(std::stoi(v2tokens[1]))
-                              : std::nullopt,
-                          std::optional(std::stoi(v2tokens[2]))};
-                    v3 = {std::optional(std::stoi(v3tokens[0])),
-                          !v3tokens[1].empty()
-                              ? std::optional(std::stoi(v3tokens[1]))
-                              : std::nullopt,
-                          std::optional(std::stoi(v3tokens[2]))};
+                    v1 = {std::stoi(v1tokens[0]),
+                          !v1tokens[1].empty() ? std::stoi(v1tokens[1]) : -1,
+                          std::stoi(v1tokens[2])};
+                    v2 = {std::stoi(v2tokens[0]),
+                          !v2tokens[1].empty() ? std::stoi(v2tokens[1]) : -1,
+                          std::stoi(v2tokens[2])};
+                    v3 = {std::stoi(v3tokens[0]),
+                          !v3tokens[1].empty() ? std::stoi(v3tokens[1]) : -1,
+                          std::stoi(v3tokens[2])};
                 }
                 faces.push_back({v1, v2, v3});
             } else {
@@ -120,6 +109,10 @@ ObjLoadStatus load_file(const std::string& path) {
         std::cout << "\t" << opt(face.z.x) << "/" << opt(face.z.y) << "/"
                   << opt(face.z.z) << "\n";
     }
+    dest.vertices = vertices;
+    dest.normals = normals;
+    dest.uvs = uvs;
+    dest.faces = faces;
     return Success;
 }
 }  // namespace zifmann::zgame::core::obj_loader

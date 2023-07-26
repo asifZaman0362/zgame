@@ -6,6 +6,8 @@
 #include <string_view>
 #include <unordered_map>
 
+#include "obj.hpp"
+
 namespace zifmann::zgame::core {
 namespace AssetManager {
 
@@ -24,15 +26,6 @@ class Font {
    public:
     bool loadFromFile(const std::string&) {}
 };
-
-// TODO: use shared ptr?
-static std::unordered_map<std::string, std::shared_ptr<Texture>> texture_files;
-static std::unordered_map<std::string, std::shared_ptr<SoundBuffer>>
-    audio_files;
-static std::unordered_map<std::string, std::shared_ptr<Font>> font_files;
-static std::unordered_map<std::string, std::shared_ptr<Shader>> shaders;
-static std::unordered_map<std::string, std::shared_ptr<ShaderProgram>>
-    shader_programs;
 
 /// @brief Loads texture into memory
 /// @param filename: Filename of the texture
@@ -56,15 +49,24 @@ std::weak_ptr<Shader> LoadShader(const std::string& filename);
 std::weak_ptr<ShaderProgram> LoadShaderProgram(
     const std::string& vertex_source, const std::string& fragment_source);
 
+/// @brief Loads an OBJ file into memory from disk
+/// @param path Path to the model to load
+/// @return
+std::weak_ptr<obj_loader::ObjData> LoadObjModel(const std::string& path);
+
 /// @brief Deletes and unloads texture from memory
 /// @param filename: Filename of the texture
-void DeleteTexture(const std::string&);
+void DeleteTexture(const std::string& filename);
 /// @brief Deletes and unloads audio clip from memory
 /// @param filename: Filename of the audio clip
-void DeleteAudio(const std::string&);
+void DeleteAudio(const std::string& filename);
 /// @brief Deletes and unloads font file from memory
-/// @parama filename: Filename of the font
-void DeleteFont(const std::string&);
+/// @param filename: Filename of the font
+void DeleteFont(const std::string& filename);
+/// @brief Deletes an obj file from memory
+/// @param path
+/// @return
+void DeleteObjModel(const std::string& path);
 
 /// @brief Clears all resources that were loaded since startup
 void ClearResources();
