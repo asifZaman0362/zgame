@@ -2,13 +2,15 @@
 
 #include <iostream>
 
+#include "assetmanager.hpp"
+#include "logger.hpp"
 #include "shader.hpp"
 
 namespace zifmann::zgame::test {
 void draw_triangle() {
     using namespace zgame::core::rendering::shader;
-    float vertices[] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f,
-                        0.0f,  0.0f,  0.5f, 0.0f};
+    float vertices[] = {-0.5f, -1.0f, 0.0f, 0.5f, -1.0f,
+                        0.0f,  0.0f,  0.0f, 0.0f};
     unsigned int vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -20,17 +22,18 @@ void draw_triangle() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
                           (void*)0);
     glEnableVertexAttribArray(0);
-    unsigned int shader;
-    char log[512];
-    ShaderLoadStatus code =
-        load_shader_program("res/vert.glsl", "res/frag.glsl", shader, log);
-    if (code != ShaderLoadStatus::Success) {
-        std::cerr << "failed to load shader: " << code << "\nLog: " << log
-                  << std::endl;
+    auto shader = zifmann::zgame::core::AssetManager::LoadShaderProgram(
+                      "res/vert.glsl", "res/other.glsl")
+                      .lock()
+                      .get();
+    if (!shader) {
+        log_error("Somethings wrong!");
         exit(-1);
     }
-    glUseProgram(shader);
+    glUseProgram(*shader);
     glDrawArrays(GL_TRIANGLES, 0, 3);
+    glBindVertexArray(0);
+    glUseProgram(0);
 }
 
 }  // namespace zifmann::zgame::test

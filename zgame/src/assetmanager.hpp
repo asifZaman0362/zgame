@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 
 namespace zifmann::zgame::core {
@@ -13,15 +14,15 @@ typedef unsigned int ShaderProgram;
 
 class Texture {
    public:
-    bool loadFromFile(std::string_view) {}
+    bool loadFromFile(const std::string&) {}
 };
 class SoundBuffer {
    public:
-    bool loadFromFile(std::string_view) {}
+    bool loadFromFile(const std::string&) {}
 };
 class Font {
    public:
-    bool loadFromFile(std::string_view) {}
+    bool loadFromFile(const std::string&) {}
 };
 
 // TODO: use shared ptr?
@@ -35,23 +36,25 @@ static std::unordered_map<std::string, std::shared_ptr<ShaderProgram>>
 
 /// @brief Loads texture into memory
 /// @param filename: Filename of the texture
-std::weak_ptr<Texture> LoadTexture(const std::string&);
+std::weak_ptr<Texture> LoadTexture(const std::string& filename);
 /// @brief Loads audio clip into memory
 /// @param filename: Filename of the audio clip
-std::weak_ptr<SoundBuffer> LoadAudio(const std::string&);
+std::weak_ptr<SoundBuffer> LoadAudio(const std::string& filename);
 /// @brief Loads font into memory
 /// @param filename: Filename of the font
-std::weak_ptr<Font> LoadFont(const std::string&);
+std::weak_ptr<Font> LoadFont(const std::string& filename);
 
 /// @brief Loads, and compiles a shader into memory
-/// @param  filename Filename of the shader source
+/// @param filename Filename of the shader source
 /// @return
-std::weak_ptr<Shader> LoadShader(const std::string&);
+std::weak_ptr<Shader> LoadShader(const std::string& filename);
 
 /// @brief Loads, compiles and links a shader program into memory
-/// @param  filename Filename of the shader source
+/// @param vertex_source Filename of the vertex shader source
+/// @param fragment_source Filename of the fragment shader source
 /// @return
-std::weak_ptr<Shader> LoadShader(const std::string&);
+std::weak_ptr<ShaderProgram> LoadShaderProgram(
+    const std::string& vertex_source, const std::string& fragment_source);
 
 /// @brief Deletes and unloads texture from memory
 /// @param filename: Filename of the texture

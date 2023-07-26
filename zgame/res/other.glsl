@@ -3,5 +3,5 @@
 out vec4 frag;
 
 void main() {
-    frag = vec4(1.0f, 0.2f, 0.3f, 1.0f);
+    frag = vec4(0.1f, 0.6f, 0.3f, 1.0f);
 }
