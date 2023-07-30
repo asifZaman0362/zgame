@@ -2,11 +2,13 @@
 #define ZIFMANN_ZGAME_CORE_MESH_HPP
 
 #include <vector>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "assetmanager.hpp"
 
 namespace zifmann::zgame::core {
 class Mesh {
+    friend class GameObject;
    private:
     unsigned int vao;
     unsigned int vbo;
@@ -18,7 +20,7 @@ class Mesh {
     Mesh(std::vector<vec3f> vertices, std::vector<int> triangles,
          AssetManager::ShaderProgram shader);
     ~Mesh();
-    void draw();
+    void draw(glm::mat4);
     void set_shader(AssetManager::ShaderProgram shader);
 };
 }  // namespace zifmann::zgame::core

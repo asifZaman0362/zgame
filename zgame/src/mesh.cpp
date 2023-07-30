@@ -39,8 +39,10 @@ Mesh::~Mesh() {
     glDeleteVertexArrays(1, &vao);
 }
 
-void Mesh::draw() {
+void Mesh::draw(glm::mat4 transform) {
     glUseProgram(shader);
+    auto transform_location = glGetUniformLocation(shader, "transform");
+    glUniformMatrix4fv(transform_location, 1, GL_FALSE, glm::value_ptr(transform));
     glBindVertexArray(vao);
     glDrawElements(GL_TRIANGLES, triangle_count, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);

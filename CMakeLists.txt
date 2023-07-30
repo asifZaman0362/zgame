@@ -17,6 +17,7 @@ set(SOURCE_FILES
     zgame/src/mesh.hpp zgame/src/mesh.cpp zgame/src/assetmanager.hpp
     zgame/src/assetmanager.cpp zgame/src/logger.hpp zgame/src/logger.cpp
     zgame/src/obj.hpp zgame/src/obj.cpp zgame/src/utils.cpp zgame/src/utils.hpp
+    zgame/src/gameobject.hpp zgame/src/gameobject.cpp
 )
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES} ${OPENGL_FILES})
 #file(COPY zgame/res DESTINATION .)
