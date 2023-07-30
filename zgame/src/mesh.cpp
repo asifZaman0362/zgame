@@ -6,15 +6,22 @@
 
 namespace zifmann::zgame::core {
 Mesh::Mesh(std::vector<vec3f> verts, std::vector<int> tris,
-           AssetManager::ShaderProgram shader) {
+           std::vector<vec2f> texCoords, AssetManager::ShaderProgram shader,
+           uint texture) {
+    this->texture = texture;
     triangle_count = tris.size();
     vertex_count = verts.size() * 3;
-    float vertices[vertex_count];
+    auto uv_count = texCoords.size() * 2;
+    float vertices[vertex_count + uv_count];
     int i = 0;
-    for (auto& vert : verts) {
+    for (auto vert : verts) {
         vertices[i++] = vert.x;
         vertices[i++] = vert.y;
         vertices[i++] = vert.z;
+    }
+    for (auto uv : texCoords) {
+        vertices[i++] = uv.x;
+        vertices[i++] = uv.y;
     }
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -31,6 +38,9 @@ Mesh::Mesh(std::vector<vec3f> verts, std::vector<int> tris,
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
                           (void*)0);
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float),
+                          (void*)(vertex_count * sizeof(float)));
+    glEnableVertexAttribArray(1);
     this->shader = shader;
 }
 
@@ -42,7 +52,9 @@ Mesh::~Mesh() {
 void Mesh::draw(glm::mat4 transform) {
     glUseProgram(shader);
     auto transform_location = glGetUniformLocation(shader, "transform");
-    glUniformMatrix4fv(transform_location, 1, GL_FALSE, glm::value_ptr(transform));
+    glUniformMatrix4fv(transform_location, 1, GL_FALSE,
+                       glm::value_ptr(transform));
+    glBindTexture(GL_TEXTURE_2D, texture);
     glBindVertexArray(vao);
     glDrawElements(GL_TRIANGLES, triangle_count, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);

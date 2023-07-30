@@ -57,7 +57,9 @@ void create_mesh() {
         indices.push_back(face.y.x - 1);
         indices.push_back(face.z.x - 1);
     }
-    mesh = new Mesh(vertices, indices, *shader.lock().get());
+    auto texCoords = obj->uvs;
+    auto texture = AssetManager::LoadTexture("res/nick.jpg").lock()->get_id();
+    mesh = new Mesh(vertices, indices, texCoords, *shader.lock().get(), texture);
     gameObject =
         new GameObject(mesh, glm::vec3(0.0f), glm::vec3(1.0f), glm::vec3(0.0f));
 }

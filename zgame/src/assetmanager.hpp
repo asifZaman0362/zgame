@@ -15,8 +15,17 @@ typedef unsigned int Shader;
 typedef unsigned int ShaderProgram;
 
 class Texture {
+   private:
+    int width;
+    int height;
+    int nrChannels;
+    uint texture;
+
    public:
-    bool loadFromFile(const std::string&) {}
+    Texture();
+    ~Texture();
+    bool loadFromFile(const std::string&);
+    uint get_id();
 };
 class SoundBuffer {
    public:
