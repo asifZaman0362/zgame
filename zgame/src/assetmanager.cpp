@@ -15,14 +15,15 @@ static std::unordered_map<std::string, std::shared_ptr<Texture>> texture_files;
 static std::unordered_map<std::string, std::shared_ptr<SoundBuffer>>
     audio_files;
 static std::unordered_map<std::string, std::shared_ptr<Font>> font_files;
-static std::unordered_map<std::string, std::shared_ptr<Shader>> shaders;
-static std::unordered_map<std::string, std::shared_ptr<ShaderProgram>>
+static std::unordered_map<std::string, ShaderProgram>
     shader_programs;
 static std::unordered_map<std::string, std::shared_ptr<obj_loader::ObjData>>
     obj_models;
 
 Texture::Texture() = default;
-Texture::~Texture() = default;
+Texture::~Texture() {
+    glDeleteTextures(1, &texture);
+}
 
 bool Texture::loadFromFile(const std::string& path) {
     unsigned char *data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
@@ -46,21 +47,21 @@ uint Texture::get_id() {
     return texture;
 }
  
-std::weak_ptr<Texture> LoadTexture(const std::string& name) {
+std::shared_ptr<Texture> LoadTexture(const std::string& name) {
     if (texture_files[name])
         return texture_files[name];
     else {
         auto texture = std::make_shared<Texture>();
         if (!texture->loadFromFile(name)) {
             log_error("Failed to load texture!");
-            return std::weak_ptr<Texture>();
+            return nullptr;
         }
         texture_files[name] = texture;
         return texture;
     }
 }
 
-std::weak_ptr<SoundBuffer> LoadAudio(const std::string& name) {
+std::shared_ptr<SoundBuffer> LoadAudio(const std::string& name) {
     if (audio_files[name])
         return audio_files[name];
     else {
@@ -71,7 +72,7 @@ std::weak_ptr<SoundBuffer> LoadAudio(const std::string& name) {
     }
 }
 
-std::weak_ptr<Font> LoadFont(const std::string& name) {
+std::shared_ptr<Font> LoadFont(const std::string& name) {
     if (font_files[name])
         return font_files[name];
     else {
@@ -82,23 +83,7 @@ std::weak_ptr<Font> LoadFont(const std::string& name) {
     }
 }
 
-std::weak_ptr<Shader> LoadShader(const std::string& path) {
-    if (shaders[path]) {
-        return shaders[path];
-    }
-    using namespace zifmann::zgame::core::rendering::shader;
-    unsigned int shader_id;
-    char infolog[512];
-    if (load_shader(path.c_str(), GL_VERTEX_SHADER, shader_id, infolog) !=
-        ShaderLoadStatus::Success) {
-        log_error("Failed to load shader! log: %s", infolog);
-        return std::weak_ptr<Shader>();
-    }
-    shaders[path] = std::make_shared<Shader>(shader_id);
-    return shaders[path];
-}
-
-std::weak_ptr<ShaderProgram> LoadShaderProgram(const std::string& vert,
+ShaderProgram LoadShaderProgram(const std::string& vert,
                                                const std::string& frag) {
     std::string fullname = vert + frag;
     if (shader_programs[fullname]) {
@@ -110,13 +95,13 @@ std::weak_ptr<ShaderProgram> LoadShaderProgram(const std::string& vert,
     if (load_shader_program(vert.c_str(), frag.c_str(), program_id, infolog) !=
         ShaderLoadStatus::Success) {
         log_error("Failed to load shader! log: %s", infolog);
-        return std::weak_ptr<Shader>();
+        return 0;
     }
-    shaders[fullname] = std::make_shared<ShaderProgram>(program_id);
-    return shaders[fullname];
+    shader_programs[fullname] = program_id;
+    return shader_programs[fullname];
 }
 
-std::weak_ptr<obj_loader::ObjData> LoadObjModel(const std::string& path) {
+std::shared_ptr<obj_loader::ObjData> LoadObjModel(const std::string& path) {
     if (obj_models[path]) {
         return obj_models[path];
     } else {
@@ -124,7 +109,7 @@ std::weak_ptr<obj_loader::ObjData> LoadObjModel(const std::string& path) {
         auto res = obj_loader::load_file(path, data);
         if (res != obj_loader::ObjLoadStatus::Success) {
             log_error("Failed to load obj model!");
-            return std::weak_ptr<obj_loader::ObjData>();
+            return nullptr;
         }
         obj_models[path] = std::make_shared<obj_loader::ObjData>(data);
         return obj_models[path];
@@ -152,6 +137,12 @@ void DeleteFont(const std::string& name) {
 void DeleteObjModel(const std::string& path) {
     if (obj_models[path]) {
         obj_models.erase(path);
+    }
+}
+
+void DeleteShaderProgram(const std::string& shader) {
+    if (shader_programs[shader]) {
+        glDeleteProgram(shader_programs[shader]);
     }
 }
 

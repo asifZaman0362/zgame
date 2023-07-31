@@ -19,8 +19,8 @@ class GameObject {
     void rotate(glm::vec3 euler);
     void scale(glm::vec3 scale);
     void set_position(glm::vec3 pos);
-    void set_rotation(glm::vec3 pos);
-    void set_scale(glm::vec3 pos);
+    void set_rotation(glm::vec3 axes);
+    void set_scale(glm::vec3 scale);
     void draw();
 
    private:

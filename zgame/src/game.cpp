@@ -1,12 +1,13 @@
 #include "game.hpp"
 
 #include <iostream>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 #include "assetmanager.hpp"
 #include "gameobject.hpp"
 #include "mesh.hpp"
 #include "obj.hpp"
-#include "triangle.hpp"
 #include "types.hpp"
 #include "window.hpp"
 
@@ -46,12 +47,12 @@ void create_mesh() {
     // std::vector<int> indices = {0, 1, 3, 1, 2, 3};
     auto shader =
         AssetManager::LoadShaderProgram("res/vert.glsl", "res/frag.glsl");
-    auto obj = AssetManager::LoadObjModel("res/cube.obj").lock().get();
+    auto obj = AssetManager::LoadObjModel("res/cube.obj");
     if (!obj) {
         exit(-1);
     }
-    auto texture = AssetManager::LoadTexture("res/tex.png").lock()->get_id();
-    mesh = new Mesh(obj->data, obj->indices, *shader.lock().get(), texture);
+    auto texture = AssetManager::LoadTexture("res/tex.png");
+    mesh = new Mesh(obj->data, obj->indices, shader, texture.get()->get_id());
     gameObject =
         new GameObject(mesh, glm::vec3(0.0f), glm::vec3(0.5f), glm::vec3(0.0f));
 }

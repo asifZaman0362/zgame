@@ -12,12 +12,6 @@ namespace zifmann::zgame::core::obj_loader {
 typedef unsigned int uint;
 
 struct ObjData {
-    /*
-    std::vector<vec3f> vertices;
-    std::vector<vec2f> uvs;
-    std::vector<vec3f> normals;
-    std::vector<vec3<vec3i>> faces;
-    */
     std::vector<Vertex> data;
     std::vector<int> indices;
 };

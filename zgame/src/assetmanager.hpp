@@ -38,30 +38,25 @@ class Font {
 
 /// @brief Loads texture into memory
 /// @param filename: Filename of the texture
-std::weak_ptr<Texture> LoadTexture(const std::string& filename);
+std::shared_ptr<Texture> LoadTexture(const std::string& filename);
 /// @brief Loads audio clip into memory
 /// @param filename: Filename of the audio clip
-std::weak_ptr<SoundBuffer> LoadAudio(const std::string& filename);
+std::shared_ptr<SoundBuffer> LoadAudio(const std::string& filename);
 /// @brief Loads font into memory
 /// @param filename: Filename of the font
-std::weak_ptr<Font> LoadFont(const std::string& filename);
-
-/// @brief Loads, and compiles a shader into memory
-/// @param filename Filename of the shader source
-/// @return
-std::weak_ptr<Shader> LoadShader(const std::string& filename);
+std::shared_ptr<Font> LoadFont(const std::string& filename);
 
 /// @brief Loads, compiles and links a shader program into memory
 /// @param vertex_source Filename of the vertex shader source
 /// @param fragment_source Filename of the fragment shader source
 /// @return
-std::weak_ptr<ShaderProgram> LoadShaderProgram(
+ShaderProgram LoadShaderProgram(
     const std::string& vertex_source, const std::string& fragment_source);
 
 /// @brief Loads an OBJ file into memory from disk
 /// @param path Path to the model to load
 /// @return
-std::weak_ptr<obj_loader::ObjData> LoadObjModel(const std::string& path);
+std::shared_ptr<obj_loader::ObjData> LoadObjModel(const std::string& path);
 
 /// @brief Deletes and unloads texture from memory
 /// @param filename: Filename of the texture

@@ -1,5 +1,6 @@
 #ifndef ZIFMANN_ZGAME_CORE_TYPES_HPP
 #define ZIFMANN_ZGAME_CORE_TYPES_HPP
+#include <glm/gtc/type_ptr.hpp>
 
 namespace zifmann::zgame::core {
 template <typename T>
@@ -42,6 +43,14 @@ struct Vertex {
     vec3f normal;
     vec2f uv;
 };
+
+static const auto UP = glm::vec3(0, 1.0f, 0);
+static const auto DOWN = glm::vec3(0, -1.0f, 0);
+static const auto FORWARD = glm::vec3(0, 0.0f, 1.0f);
+static const auto BACKWARD = glm::vec3(0, 0.0f, -1.0f);
+static const auto RIGHT = glm::vec3(1.0f, 0.0f, 0.0f);
+static const auto LEFT = glm::vec3(-1.0f, 0.0f, 0.0f);
+
 
 }  // namespace zifmann::zgame::core
 
