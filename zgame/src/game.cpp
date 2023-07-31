@@ -50,14 +50,8 @@ void create_mesh() {
     if (!obj) {
         exit(-1);
     }
-    auto vertices = obj->data;
-    /*for (auto& face : obj->faces) {
-        indices.push_back(face.x.x - 1);
-        indices.push_back(face.y.x - 1);
-        indices.push_back(face.z.x - 1);
-    }*/
     auto texture = AssetManager::LoadTexture("res/tex.png").lock()->get_id();
-    mesh = new Mesh(vertices, obj->indices, *shader.lock().get(), texture);
+    mesh = new Mesh(obj->data, obj->indices, *shader.lock().get(), texture);
     gameObject =
         new GameObject(mesh, glm::vec3(0.0f), glm::vec3(0.5f), glm::vec3(0.0f));
 }
