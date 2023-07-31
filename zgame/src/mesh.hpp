@@ -13,15 +13,15 @@ class Mesh {
    private:
     unsigned int vao;
     unsigned int vbo;
+    unsigned int ebo;
     unsigned int triangle_count;
     unsigned int vertex_count;
     unsigned int texture;
     AssetManager::ShaderProgram shader;  // TODO: convert to material
 
    public:
-    Mesh(std::vector<vec3f> vertices, std::vector<int> triangles,
-         std::vector<vec2f> texCoords, AssetManager::ShaderProgram shader,
-         uint texture);
+    Mesh(std::vector<Vertex> vertices, std::vector<int> triangles,
+         AssetManager::ShaderProgram shader, uint texture);
     ~Mesh();
     void draw(glm::mat4);
     void set_shader(AssetManager::ShaderProgram shader);

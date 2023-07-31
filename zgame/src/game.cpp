@@ -28,7 +28,7 @@ void resize(Window window, int width, int height) {
 void render(Window window) {
     float dt = (float)glfwGetTime();
     glClearColor(0.5f, 0.4f, 0.8f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // test::draw_triangle();
     // gameObject->rotate(glm::vec3(0, 0.1f, 0));
     gameObject->set_rotation(glm::vec3(1.0f, 1.0f, 1.0f) * dt * 10.0f);
@@ -50,18 +50,16 @@ void create_mesh() {
     if (!obj) {
         exit(-1);
     }
-    std::vector<int> indices;
-    auto vertices = obj->vertices;
-    for (auto& face : obj->faces) {
+    auto vertices = obj->data;
+    /*for (auto& face : obj->faces) {
         indices.push_back(face.x.x - 1);
         indices.push_back(face.y.x - 1);
         indices.push_back(face.z.x - 1);
-    }
-    auto texCoords = obj->uvs;
-    auto texture = AssetManager::LoadTexture("res/nick.jpg").lock()->get_id();
-    mesh = new Mesh(vertices, indices, texCoords, *shader.lock().get(), texture);
+    }*/
+    auto texture = AssetManager::LoadTexture("res/tex.png").lock()->get_id();
+    mesh = new Mesh(vertices, obj->indices, *shader.lock().get(), texture);
     gameObject =
-        new GameObject(mesh, glm::vec3(0.0f), glm::vec3(1.0f), glm::vec3(0.0f));
+        new GameObject(mesh, glm::vec3(0.0f), glm::vec3(0.5f), glm::vec3(0.0f));
 }
 
 int start() {
@@ -71,6 +69,8 @@ int start() {
     }
     glfwSetFramebufferSizeCallback(window, resize);
     create_mesh();
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
     while (!glfwWindowShouldClose(window)) {
         process_input(window);
         render(window);

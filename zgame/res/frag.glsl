@@ -1,10 +1,18 @@
 #version 330 core
+in vec2 TexCoord;
+//in vec3 Normal;
+//in vec3 FragPos;
 
 out vec4 frag;
 
-in vec2 TexCoord;
 uniform sampler2D ourTexture;
+//uniform vec3 lightPos;
 
 void main() {
-    frag = texture(ourTexture, TexCoord); //* vec4(ourColor, 1.0f);
+    //vec3 norm = normalize(Normal);
+    //vec3 lightDir = normalize(lightPos - FragPos);
+    //float diff = max(dot(norm, lightDir), 0.0);
+    //vec3 diffuse = diff * vec3(1.0f);
+    //frag = vec4(diffuse * vec3(1.0f, 0.5f, 0.5f), 1.0f);
+    frag = texture(ourTexture, TexCoord);
 }

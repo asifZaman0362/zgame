@@ -32,11 +32,11 @@ bool Texture::loadFromFile(const std::string& path) {
     }
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);
     stbi_image_free(data);
     return true;
@@ -51,7 +51,10 @@ std::weak_ptr<Texture> LoadTexture(const std::string& name) {
         return texture_files[name];
     else {
         auto texture = std::make_shared<Texture>();
-        texture->loadFromFile(name);
+        if (!texture->loadFromFile(name)) {
+            log_error("Failed to load texture!");
+            return std::weak_ptr<Texture>();
+        }
         texture_files[name] = texture;
         return texture;
     }

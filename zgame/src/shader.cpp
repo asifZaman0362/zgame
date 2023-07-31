@@ -1,5 +1,6 @@
 #include "shader.hpp"
 #include <fstream>
+#include "logger.hpp"
 #include <glad/glad.h>
 
 namespace zifmann::zgame::core::rendering::shader
@@ -32,10 +33,13 @@ namespace zifmann::zgame::core::rendering::shader
         unsigned int vert_shader, frag_shader;
         auto status = load_shader(vert_path, GL_VERTEX_SHADER, vert_shader, log);
         if (status != ShaderLoadStatus::Success) {
+            //log_error("failed to load vert shader");
+            std::cout << "failed to load vert shader" << std::endl;
             return status;
         }
         status = load_shader(frag_path, GL_FRAGMENT_SHADER, frag_shader, log);
         if (status != ShaderLoadStatus::Success) {
+            std::cout << "failed to load frag shader" << std::endl;
             return status;
         }
         unsigned int program = glCreateProgram();

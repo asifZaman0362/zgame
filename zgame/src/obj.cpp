@@ -1,5 +1,6 @@
 #include "obj.hpp"
 
+#include <algorithm>
 #include <array>
 #include <exception>
 #include <optional>
@@ -11,6 +12,11 @@
 #include "utils.hpp"
 
 #define opt(a) (a == -1 ? "" : std::to_string(a))
+
+template <typename T>
+inline bool contains(const std::vector<T>& vec, const T& item) {
+    return std::find(vec.begin(), vec.end(), item) != vec.end();
+}
 
 namespace zifmann::zgame::core::obj_loader {
 ObjLoadStatus load_file(const std::string& path, ObjData& dest) {
@@ -58,23 +64,23 @@ ObjLoadStatus load_file(const std::string& path, ObjData& dest) {
                 // vec3<std::optional<uint>> v1, v2, v3;
                 vec3i v1, v2, v3;
                 if (v1tokens.size() == 1) {
-                    v1 = {std::stoi(v1tokens[0]), -1, -1};
-                    v2 = {std::stoi(v2tokens[0]), -1, -1};
-                    v3 = {std::stoi(v3tokens[0]), -1, -1};
+                    v1 = {std::stoi(v1tokens[0]) - 1, -1, -1};
+                    v2 = {std::stoi(v2tokens[0]) - 1, -1, -1};
+                    v3 = {std::stoi(v3tokens[0]) - 1, -1, -1};
                 } else if (v1tokens.size() == 2) {
-                    v1 = {std::stoi(v1tokens[0]), std::stoi(v1tokens[1]), -1};
-                    v2 = {std::stoi(v2tokens[0]), std::stoi(v2tokens[1]), -1};
-                    v3 = {std::stoi(v3tokens[0]), std::stoi(v3tokens[1]), -1};
+                    v1 = {std::stoi(v1tokens[0]) - 1, std::stoi(v1tokens[1]) - 1, -1};
+                    v2 = {std::stoi(v2tokens[0]) - 1, std::stoi(v2tokens[1]) - 1, -1};
+                    v3 = {std::stoi(v3tokens[0]) - 1, std::stoi(v3tokens[1]) - 1, -1};
                 } else {
-                    v1 = {std::stoi(v1tokens[0]),
-                          !v1tokens[1].empty() ? std::stoi(v1tokens[1]) : -1,
-                          std::stoi(v1tokens[2])};
-                    v2 = {std::stoi(v2tokens[0]),
-                          !v2tokens[1].empty() ? std::stoi(v2tokens[1]) : -1,
-                          std::stoi(v2tokens[2])};
-                    v3 = {std::stoi(v3tokens[0]),
-                          !v3tokens[1].empty() ? std::stoi(v3tokens[1]) : -1,
-                          std::stoi(v3tokens[2])};
+                    v1 = {std::stoi(v1tokens[0]) - 1,
+                          !v1tokens[1].empty() ? std::stoi(v1tokens[1]) - 1 : -1,
+                          std::stoi(v1tokens[2]) - 1};
+                    v2 = {std::stoi(v2tokens[0]) - 1,
+                          !v2tokens[1].empty() ? std::stoi(v2tokens[1]) - 1 : -1,
+                          std::stoi(v2tokens[2]) - 1};
+                    v3 = {std::stoi(v3tokens[0]) - 1,
+                          !v3tokens[1].empty() ? std::stoi(v3tokens[1]) - 1 : -1,
+                          std::stoi(v3tokens[2]) - 1};
                 }
                 faces.push_back({v1, v2, v3});
             } else {
@@ -85,34 +91,18 @@ ObjLoadStatus load_file(const std::string& path, ObjData& dest) {
             return ParseError;
         }
     }
-    std::cout << ("Loaded OBJ model:\nAttributes:");
-    std::cout << ("\tVertices:\n");
-    for (auto& vert : vertices) {
-        std::cout << "\tx: " << vert.x << " y: " << vert.y << " z: " << vert.z
-                  << "\n";
+    std::vector<vec3f> verts;
+    std::vector<vec2f> texCoords;
+    for (auto face : faces) {
+        dest.data.push_back(Vertex{vertices[face.x.x], {0, 0, 0}, uvs[face.x.y]});
+        dest.data.push_back(Vertex{vertices[face.y.x], {0, 0, 0}, uvs[face.y.y]});
+        dest.data.push_back(Vertex{vertices[face.z.x], {0, 0, 0}, uvs[face.z.y]});
     }
-    std::cout << ("\tUVs:\n");
-    for (auto& uv : uvs) {
-        std::cout << "\tu: " << uv.x << " v: " << uv.y << "\n";
-    }
-    std::cout << ("\tNormals:\n");
-    for (auto& norm : normals) {
-        std::cout << "\tx: " << norm.x << " y: " << norm.y << " z: " << norm.z
-                  << "\n";
-    }
-    std::cout << ("\tFaces:\n");
-    for (auto& face : faces) {
-        std::cout << "\t" << opt(face.x.x) << "/" << opt(face.x.y) << "/"
-                  << opt(face.x.z);
-        std::cout << "\t" << opt(face.y.x) << "/" << opt(face.y.y) << "/"
-                  << opt(face.y.z);
-        std::cout << "\t" << opt(face.z.x) << "/" << opt(face.z.y) << "/"
-                  << opt(face.z.z) << "\n";
-    }
-    dest.vertices = vertices;
+    dest.indices = {};
+    /*dest.vertices = vertices;
     dest.normals = normals;
     dest.uvs = uvs;
-    dest.faces = faces;
+    dest.faces = faces;*/
     return Success;
 }
 }  // namespace zifmann::zgame::core::obj_loader
