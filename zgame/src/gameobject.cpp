@@ -7,7 +7,6 @@
 #include "assetmanager.hpp"
 #include "logger.hpp"
 
-float wrap_angle(int x) { return (x < 0) ? 360 + x : x; }
 
 inline void UpdateTransform(glm::mat4 transform, unsigned int shader) {
     glUseProgram(shader);
@@ -27,9 +26,9 @@ GameObject::GameObject(Mesh* mesh, glm::vec3 pos, glm::vec3 scale,
 GameObject::~GameObject() = default;
 
 void GameObject::rotate(glm::vec3 angles) {
-    float x = wrap_angle(m_rotation_angles.x + angles.x);
-    float y = wrap_angle(m_rotation_angles.y + angles.y);
-    float z = wrap_angle(m_rotation_angles.z + angles.z);
+    float x = (m_rotation_angles.x + angles.x);
+    float y = (m_rotation_angles.y + angles.y);
+    float z = (m_rotation_angles.z + angles.z);
     m_rotation_angles.x = x;
     m_rotation_angles.y = y;
     m_rotation_angles.z = z;
@@ -49,15 +48,19 @@ void GameObject::set_scale(glm::vec3 scale) {
     this->m_scale = scale;
 }
 
-void GameObject::draw() {
+void GameObject::draw(glm::mat4 view_matrix) {
+    auto scaled_translation= m_translation;
+    scaled_translation.x *= 1 / m_scale.x;
+    scaled_translation.y *= 1 / m_scale.y;
+    scaled_translation.z *= 1 / m_scale.z;
     auto transform =
-        glm::translate(glm::scale(glm::mat4(1.0f), m_scale), m_translation);
+        glm::translate(glm::scale(glm::mat4(1.0f), m_scale), scaled_translation);
     transform =
         glm::rotate(transform, glm::radians(m_rotation_angles.x), RIGHT);
     transform = glm::rotate(transform, glm::radians(m_rotation_angles.y), UP);
     transform =
         glm::rotate(transform, glm::radians(m_rotation_angles.z), FORWARD);
-    mesh->draw(transform);
+    mesh->draw(transform, view_matrix);
 }
 
 }  // namespace zifmann::zgame::core

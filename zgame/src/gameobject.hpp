@@ -21,7 +21,7 @@ class GameObject {
     void set_position(glm::vec3 pos);
     void set_rotation(glm::vec3 axes);
     void set_scale(glm::vec3 scale);
-    void draw();
+    void draw(glm::mat4);
 
    private:
     glm::vec3 m_rotation_angles;

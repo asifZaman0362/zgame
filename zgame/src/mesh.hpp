@@ -23,7 +23,7 @@ class Mesh {
     Mesh(std::vector<Vertex> vertices, std::vector<int> triangles,
          AssetManager::ShaderProgram shader, uint texture);
     ~Mesh();
-    void draw(glm::mat4);
+    void draw(glm::mat4, glm::mat4);
     void set_shader(AssetManager::ShaderProgram shader);
 };
 }  // namespace zifmann::zgame::core
