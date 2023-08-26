@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "utils.hpp"
+
 namespace zifmann::zgame::core::utils {
 namespace string {
 
@@ -45,5 +47,19 @@ std::string join_str(const std::vector<std::string>& pieces,
     }
     return stream.str();
 }
+
 }  // namespace string
+
+Signature SignatureHelper(int count, ...) {
+    va_list args;
+    va_start(args, count);
+    Signature signature;
+    for (int i = 0; i < count; i++) {
+        size_t id = va_arg(args, size_t);
+        signature.set(id, true);
+    }
+    va_end(args);
+    return signature;
+}
+
 }  // namespace zifmann::zgame::core::utils

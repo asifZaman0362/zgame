@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "ecs.hpp"
 
 namespace zifmann::zgame::core::utils {
 namespace string {
@@ -13,6 +14,9 @@ std::vector<std::string> split_str(const std::string &, const std::string &);
 std::string join_str(const std::vector<std::string> &, const std::string &);
 
 }  // namespace string
+
+Signature SignatureHelper(int count, ...);
+
 }  // namespace zifmann::zgame::core::utils
 
 #endif

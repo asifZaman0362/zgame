@@ -60,7 +60,7 @@ void GameObject::draw(glm::mat4 view_matrix) {
     transform = glm::rotate(transform, glm::radians(m_rotation_angles.y), UP);
     transform =
         glm::rotate(transform, glm::radians(m_rotation_angles.z), FORWARD);
-    mesh->draw(transform, view_matrix);
+    draw_mesh(mesh, transform, view_matrix);
 }
 
 }  // namespace zifmann::zgame::core

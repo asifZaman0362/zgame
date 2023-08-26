@@ -3,6 +3,7 @@ project(zgame)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS true)
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 include_directories(opengl/include)
 if (WIN32)
@@ -14,10 +15,10 @@ set(SOURCE_FILES
     zgame/src/main.cpp zgame/src/shader.cpp zgame/src/shader.hpp
     zgame/src/game.hpp zgame/src/game.cpp zgame/src/window.hpp 
     zgame/src/window.cpp zgame/src/mesh.hpp zgame/src/mesh.cpp zgame/src/assetmanager.hpp
-    zgame/src/assetmanager.cpp zgame/src/logger.hpp zgame/src/logger.cpp
+    zgame/src/assetmanager.cpp zgame/src/logger.hpp
     zgame/src/obj.hpp zgame/src/obj.cpp zgame/src/utils.cpp zgame/src/utils.hpp
     zgame/src/gameobject.hpp zgame/src/gameobject.cpp zgame/src/camera.hpp zgame/src/camera.cpp
-    zgame/src/scene.hpp zgame/src/scene.cpp
+    zgame/src/scene.hpp zgame/src/scene.cpp zgame/src/ecs.cpp zgame/src/ecs.hpp zgame/src/renderer.hpp zgame/src/renderer.cpp
 )
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES} ${OPENGL_FILES})
 #file(COPY zgame/res DESTINATION .)
