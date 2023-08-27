@@ -19,21 +19,21 @@ class Texture {
     int width;
     int height;
     int nrChannels;
-    uint texture;
+    unsigned int texture;
 
    public:
     Texture();
     ~Texture();
     bool loadFromFile(const std::string&);
-    uint get_id();
+    unsigned int get_id();
 };
 class SoundBuffer {
    public:
-    bool loadFromFile(const std::string&) {}
+    bool loadFromFile(const std::string&) { return false; }
 };
 class Font {
    public:
-    bool loadFromFile(const std::string&) {}
+    bool loadFromFile(const std::string&) { return false; }
 };
 
 /// @brief Loads texture into memory

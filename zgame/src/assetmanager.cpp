@@ -1,5 +1,6 @@
 #include "assetmanager.hpp"
 #include <fstream>
+#include <cstdint>
 
 #include "logger.hpp"
 #include "obj.hpp"
@@ -45,7 +46,7 @@ bool Texture::loadFromFile(const std::string& path) {
     return true;
 }
 
-uint Texture::get_id() {
+unsigned int Texture::get_id() {
     return texture;
 }
  

@@ -12,11 +12,16 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <cstdint>
 
 namespace zifmann::logger {
+#ifdef WIN32
+#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+#elif
 #define __FILENAME__                                                         \
     (__builtin_strrchr(__FILE__, '/') ? __builtin_strrchr(__FILE__, '/') + 1 \
                                       : __FILE__)
+#endif
 
 inline FILE *log_file;
 
@@ -36,7 +41,7 @@ inline void init() {
     char filename[32];
     auto day = ltm->tm_mday, month = ltm->tm_mon, year = ltm->tm_year + 1900;
     snprintf(filename, 32, "logfile_%02d%02d%04d_%lu.txt", day, month, year,
-             (intmax_t)t);
+             (unsigned long)t);
     static FILE *file = fopen(filename, "w");
     if (file == nullptr) fprintf(stderr, "Failed to open log file!");
     log_file = file;

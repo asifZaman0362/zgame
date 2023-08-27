@@ -7,9 +7,10 @@
 
 #include "types.hpp"
 
+typedef unsigned int uint;
+
 namespace zifmann::zgame::core::obj_loader {
 
-typedef unsigned int uint;
 
 struct ObjData {
     std::vector<Vertex> data;

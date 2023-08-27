@@ -81,7 +81,7 @@ void CreateMesh(Mesh *mesh, std::vector<Vertex> verts, std::vector<int> tris,
     mesh->texture = texture;
     mesh->triangle_count = tris.size();
     mesh->vertex_count = verts.size() * 8;
-    float vert_data[8 * mesh->vertex_count];
+    float *vert_data = new float[8 * mesh->vertex_count];
     int i = 0;
     for (auto vert : verts) {
         vert_data[i++] = vert.position.x;

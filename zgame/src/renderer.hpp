@@ -6,7 +6,7 @@
 
 namespace zifmann::zgame::core::systems {
 
-struct __attribute__((packed)) Transform {
+struct Transform {
     glm::vec3 position;
     glm::vec3 euler_rotation;
     glm::vec3 scale;
