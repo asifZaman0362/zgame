@@ -26,6 +26,7 @@ class Camera {
     glm::vec3 m_scale;
     glm::vec3 m_translation;
     glm::vec3 m_rotation_angles;
+    glm::vec3 m_camera_target;
     ProjectionMode projection;
     glm::vec4 m_ortho_bounds;
     glm::vec2 m_clip_dist;
