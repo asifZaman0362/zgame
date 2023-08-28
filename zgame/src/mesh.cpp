@@ -106,13 +106,13 @@ void CreateMesh(Mesh *mesh, std::vector<Vertex> verts, std::vector<int> tris,
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, tris.size() * sizeof(int), &tris[0],
                  GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
-                          (void*)0);
+                          (void *)0);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
-                          (void*)(6 * sizeof(float)));
+                          (void *)(6 * sizeof(float)));
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
-                          (void*)(3 * sizeof(float)));
+                          (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(2);
     glBindVertexArray(0);
     mesh->shader = shader;
@@ -128,7 +128,8 @@ void DeleteMesh(Mesh *mesh) {
     free(mesh);
 }
 
-void draw_mesh(Mesh *mesh, glm::mat4 transform, glm::mat4 projected_view_matrix) {
+void draw_mesh(Mesh *mesh, glm::mat4 transform,
+               glm::mat4 projected_view_matrix) {
     glUseProgram(mesh->shader);
     glBindVertexArray(mesh->vao);
     auto transform_location = glGetUniformLocation(mesh->shader, "MVP");

@@ -50,8 +50,8 @@ std::shared_ptr<Font> LoadFont(const std::string& filename);
 /// @param vertex_source Filename of the vertex shader source
 /// @param fragment_source Filename of the fragment shader source
 /// @return
-ShaderProgram LoadShaderProgram(
-    const std::string& vertex_source, const std::string& fragment_source);
+ShaderProgram LoadShaderProgram(const std::string& vertex_source,
+                                const std::string& fragment_source);
 
 /// @brief Loads an OBJ file into memory from disk
 /// @param path Path to the model to load

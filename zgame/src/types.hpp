@@ -18,12 +18,12 @@ struct vec4 {
     T w, x, y, z;
 };
 
-template<typename T>
+template <typename T>
 bool operator==(const vec2<T>& left, const vec2<T>& right) {
     return left.x == right.x && left.y == right.y;
 }
 
-template<typename T>
+template <typename T>
 bool operator==(const vec3<T>& left, const vec3<T>& right) {
     return left.x == right.x && left.y == right.y && left.z == right.z;
 }
@@ -50,7 +50,6 @@ static const auto FORWARD = glm::vec3(0, 0.0f, 1.0f);
 static const auto BACKWARD = glm::vec3(0, 0.0f, -1.0f);
 static const auto RIGHT = glm::vec3(1.0f, 0.0f, 0.0f);
 static const auto LEFT = glm::vec3(-1.0f, 0.0f, 0.0f);
-
 
 }  // namespace zifmann::zgame::core
 

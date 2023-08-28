@@ -37,12 +37,16 @@ void show_mouse(Window window);
 void lock_mouse(Window window);
 void unlock_mouse(Window window);
 
+void AddRawKeyListener(KeyListener *);
+void RemoveRawKeyListener(KeyListener *);
 void AddKeyListener(KeyListener *);
 void RemoveKeyListener(KeyListener *);
 void AddMouseListener(MouseListener *);
 void RemoveMouseListener(MouseListener *);
 void AddMouseButtonListener(MouseButtonListener *);
 void RemoveMouseButtonListener(MouseButtonListener *);
+void AddScrollListener(ScrollListener *);
+void RemoveScrollListener(ScrollListener *);
 
 }  // namespace zifmann::zgame::core::input
 #endif

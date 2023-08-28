@@ -1,10 +1,10 @@
+#include "utils.hpp"
+
 #include <cstdarg>
 #include <cstdio>
 #include <sstream>
 #include <string>
 #include <vector>
-
-#include "utils.hpp"
 
 namespace zifmann::zgame::core::utils {
 namespace string {

@@ -12,8 +12,7 @@
 namespace zifmann::zgame::core {
 class GameObject {
    public:
-    GameObject(Mesh* mesh, glm::vec3 pos, glm::vec3 scale,
-               glm::vec3 euler_rot);
+    GameObject(Mesh* mesh, glm::vec3 pos, glm::vec3 scale, glm::vec3 euler_rot);
     ~GameObject();
     void translate(glm::vec3 delta);
     void rotate(glm::vec3 euler);

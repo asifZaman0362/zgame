@@ -1,5 +1,7 @@
 #include <glad/glad.h>
+
 #include <glm/gtc/type_ptr.hpp>
+
 #include "assetmanager.hpp"
 #include "ecs.hpp"
 #include "mesh.hpp"
@@ -13,9 +15,9 @@ struct Transform {
 };
 
 class Renderer : public ISystem {
-    public:
-        Signature GetSignature() override;
-        void Update(float) override;
+   public:
+    Signature GetSignature() override;
+    void Update(float) override;
 };
 
-}
+}  // namespace zifmann::zgame::core::systems

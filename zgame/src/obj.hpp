@@ -11,7 +11,6 @@ typedef unsigned int uint;
 
 namespace zifmann::zgame::core::obj_loader {
 
-
 struct ObjData {
     std::vector<Vertex> data;
     std::vector<int> indices;

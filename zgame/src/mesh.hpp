@@ -29,7 +29,8 @@ class Mesh {
     void set_shader(AssetManager::ShaderProgram shader);*/
 };
 
-void CreateMesh(Mesh *mesh, std::vector<Vertex> verts, std::vector<int> tris, AssetManager::ShaderProgram shader, uint texture);
+void CreateMesh(Mesh *mesh, std::vector<Vertex> verts, std::vector<int> tris,
+                AssetManager::ShaderProgram shader, uint texture);
 
 void set_shader(Mesh *mesh, AssetManager::ShaderProgram shader);
 

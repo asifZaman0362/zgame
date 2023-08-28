@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <exception>
+#include <glm/gtc/type_ptr.hpp>
 #include <optional>
 #include <tuple>
 #include <utility>
@@ -10,7 +11,6 @@
 #include "logger.hpp"
 #include "types.hpp"
 #include "utils.hpp"
-#include <glm/gtc/type_ptr.hpp>
 
 #define opt(a) (a == -1 ? "" : std::to_string(a))
 
@@ -56,21 +56,26 @@ ObjLoadStatus load_file(const std::string& path, ObjData& dest) {
                 int v1 = 0, vt1 = 0, vn1 = 0;
                 int v2 = 0, vt2 = 0, vn2 = 0;
                 int v3 = 0, vt3 = 0, vn3 = 0;
-                sscanf(line.c_str(), "f %i/%i/%i %i/%i/%i %i/%i/%i", &v1, &vt1, &vn1, &v2, &vt2, &vn2, &v3, &vt3, &vn3);
+                sscanf(line.c_str(), "f %i/%i/%i %i/%i/%i %i/%i/%i", &v1, &vt1,
+                       &vn1, &v2, &vt2, &vn2, &v3, &vt3, &vn3);
                 auto entry1 = std::make_tuple(v1, vt1, vn1);
                 auto entry2 = std::make_tuple(v2, vt2, vn2);
                 auto entry3 = std::make_tuple(v3, vt3, vn3);
                 /*indices.push_back(vert_data.size());
                 indices.push_back(vert_data.size() + 1);
                 indices.push_back(vert_data.size() + 2);
-                vert_data.push_back(Vertex{vertices[v1 - 1], normals[vn1 - 1], uvs[vt1 - 1]});
-                vert_data.push_back(Vertex{vertices[v2 - 1], normals[vn2 - 1], uvs[vt2 - 1]});
-                vert_data.push_back(Vertex{vertices[v3 - 1], normals[vn3 - 1], uvs[vt3 - 1]});*/
-                auto position = std::find(entries.begin(), entries.end(), entry1);
+                vert_data.push_back(Vertex{vertices[v1 - 1], normals[vn1 - 1],
+                uvs[vt1 - 1]}); vert_data.push_back(Vertex{vertices[v2 - 1],
+                normals[vn2 - 1], uvs[vt2 - 1]});
+                vert_data.push_back(Vertex{vertices[v3 - 1], normals[vn3 - 1],
+                uvs[vt3 - 1]});*/
+                auto position =
+                    std::find(entries.begin(), entries.end(), entry1);
                 if (position == std::end(entries)) {
                     entries.push_back(entry1);
                     indices.push_back(vert_data.size());
-                    vert_data.push_back(Vertex{vertices[v1 - 1], normals[vn1 - 1], uvs[vt1 - 1]});
+                    vert_data.push_back(Vertex{vertices[v1 - 1],
+                                               normals[vn1 - 1], uvs[vt1 - 1]});
                 } else {
                     indices.push_back(std::distance(entries.begin(), position));
                 }
@@ -78,7 +83,8 @@ ObjLoadStatus load_file(const std::string& path, ObjData& dest) {
                 if (position == std::end(entries)) {
                     entries.push_back(entry2);
                     indices.push_back(vert_data.size());
-                    vert_data.push_back(Vertex{vertices[v2 - 1], normals[vn2 - 1], uvs[vt2 - 1]});
+                    vert_data.push_back(Vertex{vertices[v2 - 1],
+                                               normals[vn2 - 1], uvs[vt2 - 1]});
                 } else {
                     indices.push_back(std::distance(entries.begin(), position));
                 }
@@ -86,17 +92,20 @@ ObjLoadStatus load_file(const std::string& path, ObjData& dest) {
                 if (position == std::end(entries)) {
                     entries.push_back(entry3);
                     indices.push_back(vert_data.size());
-                    vert_data.push_back(Vertex{vertices[v3 - 1], normals[vn3 - 1], uvs[vt3 - 1]});
+                    vert_data.push_back(Vertex{vertices[v3 - 1],
+                                               normals[vn3 - 1], uvs[vt3 - 1]});
                 } else {
                     indices.push_back(std::distance(entries.begin(), position));
                 }
             } else if (line.starts_with("s")) {
                 char smoothing[10];
                 sscanf(line.c_str(), "s %s", smoothing);
-                if (strcmp(smoothing, "on") == 0 || strcmp(smoothing, "1") == 0) {
+                if (strcmp(smoothing, "on") == 0 ||
+                    strcmp(smoothing, "1") == 0) {
                     smooth = true;
                 }
-            } else continue;
+            } else
+                continue;
         } catch (std::exception e) {
             return ParseError;
         }

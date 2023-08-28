@@ -8,15 +8,16 @@
 #define ZIFMANN_LOGGER
 
 #include <cstdarg>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <cstdint>
 
 namespace zifmann::logger {
 #ifdef WIN32
-#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+#define __FILENAME__ \
+    (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 #else
 #define __FILENAME__                                                         \
     (__builtin_strrchr(__FILE__, '/') ? __builtin_strrchr(__FILE__, '/') + 1 \
@@ -70,7 +71,8 @@ inline void log(int level, const char *format, const char *filename,
     vsnprintf(buffer, 512, _format, args);
     va_end(args);
     if (log_file) fprintf(log_file, "%s", buffer);
-    fprintf(level == 2 ? stderr : stdout, "%s%s%s", colors[level], buffer, RESET);
+    fprintf(level == 2 ? stderr : stdout, "%s%s%s", colors[level], buffer,
+            RESET);
 }
 
 #define log_debug(message, ...) \

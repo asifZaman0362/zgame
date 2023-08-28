@@ -1,6 +1,7 @@
 #include "assetmanager.hpp"
-#include <fstream>
+
 #include <cstdint>
+#include <fstream>
 
 #include "logger.hpp"
 #include "obj.hpp"
@@ -18,38 +19,36 @@ static std::unordered_map<std::string, std::shared_ptr<Texture>> texture_files;
 static std::unordered_map<std::string, std::shared_ptr<SoundBuffer>>
     audio_files;
 static std::unordered_map<std::string, std::shared_ptr<Font>> font_files;
-static std::unordered_map<std::string, ShaderProgram>
-    shader_programs;
+static std::unordered_map<std::string, ShaderProgram> shader_programs;
 static std::unordered_map<std::string, std::shared_ptr<obj_loader::ObjData>>
     obj_models;
 
 Texture::Texture() = default;
-Texture::~Texture() {
-    glDeleteTextures(1, &texture);
-}
+Texture::~Texture() { glDeleteTextures(1, &texture); }
 
 bool Texture::loadFromFile(const std::string& path) {
-    unsigned char *data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
+    unsigned char* data =
+        stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
     if (!data) {
         stbi_image_free(data);
         return false;
     }
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB,
+                 GL_UNSIGNED_BYTE, data);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                    GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glGenerateMipmap(GL_TEXTURE_2D);
     stbi_image_free(data);
     return true;
 }
 
-unsigned int Texture::get_id() {
-    return texture;
-}
- 
+unsigned int Texture::get_id() { return texture; }
+
 std::shared_ptr<Texture> LoadTexture(const std::string& name) {
     if (texture_files[name])
         return texture_files[name];
@@ -87,7 +86,7 @@ std::shared_ptr<Font> LoadFont(const std::string& name) {
 }
 
 ShaderProgram LoadShaderProgram(const std::string& vert,
-                                               const std::string& frag) {
+                                const std::string& frag) {
     std::string fullname = vert + frag;
     if (shader_programs[fullname]) {
         return shader_programs[fullname];

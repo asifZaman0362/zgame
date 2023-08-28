@@ -15,7 +15,6 @@ Camera::Camera()
       fov(60.0f),
       m_clip_dist(0.01f, 100.0f) {}
 
-
 void Camera::translate(glm::vec3 translation) { m_translation += translation; }
 
 void Camera::rotate(glm::vec3 angles) {

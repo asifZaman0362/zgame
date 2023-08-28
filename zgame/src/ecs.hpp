@@ -1,8 +1,10 @@
 #ifndef ECS_HPP
 #define ECS_HPP
 
+#include <algorithm>
 #include <array>
 #include <bitset>
+#include <cassert>
 #include <cstddef>
 #include <deque>
 #include <memory>
@@ -10,8 +12,6 @@
 #include <type_traits>
 #include <unordered_map>
 #include <utility>
-#include <cassert>
-#include <algorithm>
 
 #define MAX_COMPONENTS 32
 #define MAX_ENTITIES 100000
@@ -26,6 +26,7 @@ class IComponentArray {
 
 class ISystem {
    public:
+    virtual ~ISystem() = default;
     virtual Signature GetSignature() = 0;
     virtual void Update(float) = 0;
     void AddEntity(Entity);
@@ -38,6 +39,7 @@ class ISystem {
 template <typename T>
 class ComponentArray : public IComponentArray {
    public:
+    virtual ~ComponentArray() = default;
     T* GetComponent(Entity);
     void AddComponent(Entity, const T&);
     void RemoveComponent(Entity);
