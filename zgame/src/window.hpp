@@ -1,3 +1,5 @@
+#ifndef ZIFMANN_ZGAME_CORE_WINDOW_HPP
+#define ZIFMANN_ZGAME_CORE_WINDOW_HPP
 #include <GLFW/glfw3.h>
 
 namespace zifmann::zgame::core {
@@ -26,3 +28,4 @@ namespace zifmann::zgame::core {
 
     void close_window(Window window);
 }
+#endif
