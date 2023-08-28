@@ -21,7 +21,6 @@ Entity Registry::CreateEntity() {
     Entity id = m_availableEntities.front();
     m_availableEntities.pop_front();
     m_aliveEntities++;
-    log_debug("Added entity. Available %lu: ", m_aliveEntities);
     return id;
 }
 

@@ -18,7 +18,6 @@ PackedList<ScrollListener *, 64> scroll_listeners;
 std::unordered_map<int, PackedList<KeyListener *, 64>> key_listeners;
 
 void key_press_callback(Window, int key, int scancode, int action, int mods) {
-    zifmann::logger::log_debug("keypress callback");
     if (key_listeners.contains(key)) {
         for (auto &listener : key_listeners[key]) {
             if (action == GLFW_PRESS || action == GLFW_REPEAT)

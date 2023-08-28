@@ -11,12 +11,12 @@ uniform mat4 MVP;
 //out vec3 ourColor;
 out vec2 TexCoord;
 out vec3 Normal;
-//out vec3 FragPos;
+out vec3 FragPos;
 
 void main() {
     vec4 model_space_position = MVP * vec4(aPos, 1.0f);
     gl_Position = model_space_position;
-    //FragPos = vec3(model_space_position);
+    FragPos = vec3(model_space_position);
     //ourColor = aColor;
     TexCoord = aTexCoord;
     Normal = aNormal;

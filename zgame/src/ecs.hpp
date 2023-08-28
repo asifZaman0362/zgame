@@ -65,6 +65,8 @@ class Registry {
     Signature RemoveComponent(Entity);
     template <typename T>
     T* GetComponent(Entity);
+    template <typename T>
+    std::shared_ptr<ComponentArray<T>> GetComponentArray();
 
     Entity CreateEntity();
     Signature RemoveEntity(Entity);
@@ -240,6 +242,13 @@ T* Registry::GetComponent(Entity e) {
     auto array =
         std::static_pointer_cast<ComponentArray<T>>(m_componentArrays[id]);
     return array->GetComponent(e);
+}
+
+template <typename T>
+std::shared_ptr<ComponentArray<T>> Registry::GetComponentArray() {
+    auto id = IsComponentRegistered<T>();
+    assert(id && "Attempting to retrieve list of unregistered component type");
+    return std::static_pointer_cast<ComponentArray<T>>(m_componentArrays[id]);
 }
 
 template <typename T>

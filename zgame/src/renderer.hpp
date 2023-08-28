@@ -8,6 +8,12 @@
 
 namespace zifmann::zgame::core::systems {
 
+struct Light {
+    zifmann::zgame::core::vec3f position;
+    zifmann::zgame::core::vec3f color;
+    float intensity;
+};
+
 struct Transform {
     glm::vec3 position;
     glm::vec3 euler_rotation;

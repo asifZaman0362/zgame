@@ -21,6 +21,11 @@
 
 Coordinator coordinator;
 glm::mat4 projected_view_matrix;
+zifmann::zgame::core::systems::Light light_source {
+    .position = { 1.0f, 1.0f, 0.0f },
+    .color = { 1.0f, 0.8f, 0.65 },
+    .intensity = 1.0f
+};
 
 #include <random>
 
@@ -80,13 +85,19 @@ void render(Window window) {
     glClearColor(0.5f, 0.4f, 0.8f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // camera.rotate(glm::vec3(0, 1, 0) * dt);
-    camera.translate(glm::vec3(input_x, 0, input_y) * dt);
     glm::vec3 rot(0);
     rot.y = -dx;
     rot.x = -dy;
     dx = 0;
     dy = 0;
     camera.rotate(rot * dt);
+    glm::vec3 cam_rot = camera.get_rotation();
+    glm::vec3 movement(input_x, 0, input_y);
+    glm::mat4 transformation(1.0f);
+    transformation = glm::rotate(transformation, -cam_rot.x, glm::vec3(1, 0, 0));
+    transformation = glm::rotate(transformation, -cam_rot.y, glm::vec3(0, 1, 0));
+    transformation = glm::rotate(transformation, -cam_rot.z, glm::vec3(0, 0, 1));
+    camera.translate((glm::vec4(movement, 0.0f) * transformation) * dt);
     projected_view_matrix = camera.get_view_matrix();
     coordinator.Update(dt);
     glfwSwapBuffers(window);
@@ -107,7 +118,6 @@ void create_mesh() {
 class CameraController : public input::KeyListener, public input::MouseListener {
 
     void OnKeyPress(int key, int mods) override {
-        zifmann::logger::log_debug("keypress %i", key);
         if (key == GLFW_KEY_W) {
             input_y = -1;
         } else if (key == GLFW_KEY_S) {
@@ -121,7 +131,6 @@ class CameraController : public input::KeyListener, public input::MouseListener 
     }
 
     void OnKeyRelease(int key, int mods) override {
-        zifmann::logger::log_debug("keyrelease %i", key);
         if (key == GLFW_KEY_W) {
             input_y = 0;
         } else if (key == GLFW_KEY_S) {
@@ -135,7 +144,6 @@ class CameraController : public input::KeyListener, public input::MouseListener 
     }
 
     void OnMouseMove(double _dx, double _dy) override {
-        zifmann::logger::log_debug("mousemove");
         dx = _dx;
         dy = _dy;
     }
