@@ -7,10 +7,8 @@
 #include "logger.hpp"
 #include "types.hpp"
 
-namespace zifmann::zgame::core {
-void CreateMesh(Mesh *mesh, std::vector<Vertex> verts, std::vector<int> tris,
-                AssetManager::ShaderProgram shader, uint texture) {
-    mesh->texture = texture;
+namespace zifmann::zgame::core::rendering {
+void CreateMesh(Mesh *mesh, std::vector<Vertex> verts, std::vector<int> tris) {
     mesh->triangle_count = tris.size();
     mesh->vertex_count = verts.size() * 8;
     float *vert_data = new float[8 * mesh->vertex_count];
@@ -47,11 +45,6 @@ void CreateMesh(Mesh *mesh, std::vector<Vertex> verts, std::vector<int> tris,
                           (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(2);
     glBindVertexArray(0);
-    mesh->shader = shader;
-}
-
-void set_shader(Mesh *mesh, AssetManager::ShaderProgram shader) {
-    mesh->shader = shader;
 }
 
 void DeleteMesh(Mesh *mesh) {
@@ -60,24 +53,4 @@ void DeleteMesh(Mesh *mesh) {
     free(mesh);
 }
 
-void draw_mesh(Mesh *mesh, glm::mat4 transform,
-               glm::mat4 projected_view_matrix) {
-    glUseProgram(mesh->shader);
-    glBindVertexArray(mesh->vao);
-    auto transform_location = glGetUniformLocation(mesh->shader, "MVP");
-    glm::mat4 mvp = projected_view_matrix * transform;
-    glUniformMatrix4fv(transform_location, 1, GL_FALSE, glm::value_ptr(mvp));
-    // auto view_mat_location = glGetUniformLocation(shader, "view");
-    // glUniformMatrix4fv(view_mat_location, 1, GL_FALSE,
-    // glm::value_ptr(projected_view_matrix));
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, mesh->texture);
-    auto textureId = glGetUniformLocation(mesh->shader, "ourTexture");
-    glUniform1i(textureId, 0);
-    // auto lightPos = glGetUniformLocation(shader, "lightPos");
-    // glUniform3f(lightPos, 1.0f, 0.5f, 1.0f);
-    glDrawElements(GL_TRIANGLES, mesh->triangle_count, GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
-}
-
-}  // namespace zifmann::zgame::core
+}  // namespace zifmann::zgame::core::rendering

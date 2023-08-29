@@ -14,6 +14,7 @@ class Camera {
     void rotate(glm::vec3 angles);
     void set_rotation(glm::vec3 angles);
     glm::vec3 get_rotation();
+    glm::vec3 get_position();
     void translate(glm::vec3 translation);
     void set_translation(glm::vec3 translation);
     void set_projection_mode(ProjectionMode mode);

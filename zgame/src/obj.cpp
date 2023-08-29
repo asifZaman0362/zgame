@@ -26,10 +26,10 @@ ObjLoadStatus load_file(const std::string& path, ObjData& dest) {
     if (!file.is_open()) {
         return ObjLoadStatus::ReadError;
     }
-    std::vector<vec3f> vertices;
-    std::vector<vec3f> normals;
-    std::vector<vec2f> uvs;
-    std::vector<vec3<vec3i>> faces;
+    std::vector<vec3> vertices;
+    std::vector<vec3> normals;
+    std::vector<vec2> uvs;
+    std::vector<glm::vec<3, vec3i>> faces;
     bool smooth = false;
 
     std::vector<Vertex> vert_data;

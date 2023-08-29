@@ -70,4 +70,33 @@ ShaderLoadStatus load_shader_program(const char *vert_path,
     id = program;
     return ShaderLoadStatus::Success;
 }
+template<>
+void SetUniform<float, 1> (ShaderProgram shader, const char *name, glm::vec<1, float> u) {
+    auto location = glGetUniformLocation(shader, name);
+    glUniform1f(location, u.x);
+}
+
+template<>
+void SetUniform<int, 1> (ShaderProgram shader, const char *name, glm::vec<1, int> u) {
+    auto location = glGetUniformLocation(shader, name);
+    glUniform1i(location, u.x);
+}
+
+template<>
+void SetUniform<float, 2> (ShaderProgram shader, const char *name, glm::vec<2, float> u) {
+    auto location = glGetUniformLocation(shader, name);
+    glUniform2f(location, u.x, u.y);
+}
+
+template<>
+void SetUniform<float, 3> (ShaderProgram shader, const char *name, glm::vec<3, float> u) {
+    auto location = glGetUniformLocation(shader, name);
+    glUniform3f(location, u.x, u.y, u.z);
+}
+
+void SetUniform(ShaderProgram shader, const char *name, glm::mat4 mat) {
+    auto location = glGetUniformLocation(shader, name);
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
+}
+
 }  // namespace zifmann::zgame::core::rendering::shader

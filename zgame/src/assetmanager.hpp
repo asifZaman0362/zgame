@@ -4,12 +4,16 @@
 #include <memory>
 #include <string>
 #include <string_view>
+#include <type_traits>
 #include <unordered_map>
 
+#include "material.hpp"
 #include "obj.hpp"
 
 namespace zifmann::zgame::core {
 namespace AssetManager {
+
+extern std::unordered_map<std::string, std::shared_ptr<rendering::Material>> materials;
 
 typedef unsigned int Shader;
 typedef unsigned int ShaderProgram;
@@ -58,6 +62,26 @@ ShaderProgram LoadShaderProgram(const std::string& vertex_source,
 /// @return
 std::shared_ptr<obj_loader::ObjData> LoadObjModel(const std::string& path);
 
+template<typename T>
+concept DerivesMaterial = std::is_base_of_v<rendering::Material, T>;
+
+/// @brief Loads a material of type T where T: Material
+/// @param name the name of the material
+/// @return
+template <DerivesMaterial T>
+std::shared_ptr<T> LoadMaterial(const std::string& name);
+
+template <DerivesMaterial T>
+std::shared_ptr<T> LoadMaterial(const std::string& name) {
+    if (materials.contains(name))
+        return std::static_pointer_cast<T>(materials[name]);
+    else {
+        materials[name] = std::make_shared<T>();
+        return std::static_pointer_cast<T>(materials[name]);
+    }
+}
+
+
 /// @brief Deletes and unloads texture from memory
 /// @param filename: Filename of the texture
 void DeleteTexture(const std::string& filename);
@@ -71,6 +95,11 @@ void DeleteFont(const std::string& filename);
 /// @param path
 /// @return
 void DeleteObjModel(const std::string& path);
+
+/// @brief Deletes a material by name
+/// @param name
+template <DerivesMaterial T>
+void DeleteMaterial(const std::string& name);
 
 /// @brief Clears all resources that were loaded since startup
 void ClearResources();

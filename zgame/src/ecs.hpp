@@ -44,6 +44,8 @@ class ComponentArray : public IComponentArray {
     void AddComponent(Entity, const T&);
     void RemoveComponent(Entity);
     void OnEntityRemoved(Entity) override;
+    T* begin();
+    T* end();
 
    private:
     T m_items[MAX_ENTITIES];
@@ -122,6 +124,8 @@ class Coordinator {
     void RemoveComponent(Entity);
     template <typename T>
     T* GetComponent(Entity);
+    template <typename T>
+    std::shared_ptr<ComponentArray<T>> GetComponentArray();
 
     void Update(float);
 
@@ -186,6 +190,16 @@ void ComponentArray<T>::OnEntityRemoved(Entity e) {
     if (m_entityToIndexMap.contains(e)) {
         RemoveComponent(e);
     }
+}
+
+template <typename T>
+T* ComponentArray<T>::begin() {
+    return m_items;
+}
+
+template <typename T>
+T* ComponentArray<T>::end() {
+    return m_items + m_length;
 }
 
 template <typename T>
@@ -299,6 +313,11 @@ void Coordinator::RemoveComponent(Entity e) {
 template <typename T>
 T* Coordinator::GetComponent(Entity e) {
     return m_registry.GetComponent<T>(e);
+}
+
+template <typename T>
+std::shared_ptr<ComponentArray<T>> Coordinator::GetComponentArray() {
+    return m_registry.GetComponentArray<T>();
 }
 
 template <typename T>

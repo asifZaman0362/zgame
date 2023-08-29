@@ -54,6 +54,10 @@ glm::vec3 Camera::get_rotation() {
     return m_rotation_angles;
 }
 
+glm::vec3 Camera::get_position() {
+    return m_translation;
+}
+
 glm::mat4 Camera::get_view_matrix() {
     glm::mat4 proj;
     if (projection == Perspective) {

@@ -22,7 +22,6 @@
 
 Coordinator coordinator;
 
-glm::vec3 camera_position;
 glm::mat4 projected_view_matrix;
 
 zifmann::zgame::core::rendering::Light light_source {
@@ -34,7 +33,6 @@ zifmann::zgame::core::Transform light_transform {
     .euler_rotation = glm::vec3(0),
     .scale = glm::vec3(1)
 };
-glm::vec3 ambient = { 0.1f, 0.1f, 0.2f };
 
 #include <random>
 
@@ -48,7 +46,7 @@ int generateRandomNumber(int min, int max) {
 }
 
 namespace zifmann::zgame::core::game {
-rendering::MeshRenderer mesh_renderer;
+rendering::MeshRenderer* mesh_renderer;
 float angle = 0.0;
 float prevFrameTime = 0;
 Camera camera;
@@ -62,6 +60,16 @@ float dx = 0, dy = 0;
 
 #define GLFW_KEY(WIN, KEY) glfwGetKey(WIN, KEY) == GLFW_PRESS
 
+/*
+void mouse_move_callback(Window window, double xpos, double ypos) {
+    if (last_mouse_x == 69420 || last_mouse_y == 69420) {
+    } else {
+        dx = xpos - last_mouse_x;
+        dy = last_mouse_y - ypos;
+    }
+    last_mouse_x = xpos;
+    last_mouse_y = ypos;
+}*/
 
 void process_input(Window window) {
     glfwPollEvents();
@@ -97,12 +105,13 @@ void render(Window window) {
     transformation = glm::rotate(transformation, -cam_rot.z, glm::vec3(0, 0, 1));
     camera.translate((glm::vec4(movement, 0.0f) * transformation) * dt);
     projected_view_matrix = camera.get_view_matrix();
-    camera_position = camera.get_position();
     coordinator.Update(dt);
     glfwSwapBuffers(window);
 }
 
 void create_mesh() {
+    auto shader =
+        AssetManager::LoadShaderProgram("res/vert.glsl", "res/frag.glsl");
     auto obj = AssetManager::LoadObjModel("res/cube.obj");
     if (!obj) {
         exit(-1);
@@ -110,8 +119,8 @@ void create_mesh() {
     unsigned texture = AssetManager::LoadTexture("res/tex.png")->get_id();
     auto mesh = new rendering::Mesh();
     CreateMesh(mesh, obj->data, obj->indices);
-    auto shared_material = rendering::CreatePbrMaterial("default", glm::vec3(0.0f, 1.0f, 0.0f), texture, 0, 0, 0, 0);
-    mesh_renderer = { mesh, shared_material };
+    auto shared_material = rendering::CreatePbrMaterial("default", glm::vec3(1), texture, 0, 0, 0, 0);
+    mesh_renderer = new rendering::MeshRenderer { mesh, shared_material };
 }
 
 class CameraController : public input::KeyListener, public input::MouseListener {
@@ -203,7 +212,7 @@ int start() {
         Entity e = coordinator.CreateEntity();
         Transform transform = GetRandomTransform();
         coordinator.AddComponent<Transform>(e, transform);
-        coordinator.AddComponent<rendering::MeshRenderer>(e, mesh_renderer);
+        coordinator.AddComponent<rendering::MeshRenderer>(e, *mesh_renderer);
     }
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -221,7 +230,8 @@ int start() {
         process_input(window);
         render(window);
     }
-    DeleteMesh(mesh_renderer.mesh);
+    DeleteMesh(mesh_renderer->mesh);
+    delete mesh_renderer;
     close_window(window);
     return EXIT_SUCCESS;
 }

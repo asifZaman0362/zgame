@@ -4,6 +4,7 @@
 #include <fstream>
 
 #include "logger.hpp"
+#include "material.hpp"
 #include "obj.hpp"
 #include "shader.hpp"
 #define STB_IMAGE_IMPLEMENTATION
@@ -22,6 +23,8 @@ static std::unordered_map<std::string, std::shared_ptr<Font>> font_files;
 static std::unordered_map<std::string, ShaderProgram> shader_programs;
 static std::unordered_map<std::string, std::shared_ptr<obj_loader::ObjData>>
     obj_models;
+std::unordered_map<std::string, std::shared_ptr<rendering::Material>>
+    materials;
 
 Texture::Texture() = default;
 Texture::~Texture() { glDeleteTextures(1, &texture); }
@@ -148,10 +151,18 @@ void DeleteShaderProgram(const std::string& shader) {
     }
 }
 
+template <DerivesMaterial T>
+void DeleteMaterial(const std::string& name) {
+    if (materials.contains(name))
+        materials.erase(name);
+}
+
 void ClearResources() {
     texture_files.clear();
     audio_files.clear();
     font_files.clear();
+    obj_models.clear();
+    materials.clear();
 }
 
 }  // namespace AssetManager
