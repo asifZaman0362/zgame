@@ -15,6 +15,7 @@ endif()
 
 if (NOT APPLE)
     set(GLAD_SRC external/src/glad.c)
+    include_directories(external/include/glad)
 endif()
 
 include_directories(external/include/common)
