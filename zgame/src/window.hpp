@@ -1,7 +1,7 @@
 #ifndef ZIFMANN_ZGAME_CORE_WINDOW_HPP
 #define ZIFMANN_ZGAME_CORE_WINDOW_HPP
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
+
+#include "glheader.hpp"
 
 namespace zifmann::zgame::core {
 enum WindowStyle { Fullscreen, Windowed, BorderlessWindow };
@@ -9,8 +9,8 @@ enum WindowStyle { Fullscreen, Windowed, BorderlessWindow };
 struct WindowSettings {
     const unsigned short width = 800;
     const unsigned short height = 600;
-    const unsigned short version_major = 3;
-    const unsigned short version_minor = 3;
+    const unsigned short version_major = 4;
+    const unsigned short version_minor = 1;
     const bool fullscreen = false;
     char title[512] = "GLFW window";
     // more options (not yet implemented)

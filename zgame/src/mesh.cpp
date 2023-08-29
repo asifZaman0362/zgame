@@ -2,7 +2,7 @@
 
 #include "mesh.hpp"
 
-#include <glad/glad.h>
+#include "glheader.hpp"
 
 #include "logger.hpp"
 #include "types.hpp"

@@ -1,6 +1,7 @@
 #include "assetmanager.hpp"
 
 #include <cstdint>
+#include <cstdlib>
 #include <fstream>
 
 #include "logger.hpp"
@@ -114,6 +115,7 @@ std::shared_ptr<obj_loader::ObjData> LoadObjModel(const std::string& path) {
         auto res = obj_loader::load_file(path, data);
         if (res != obj_loader::ObjLoadStatus::Success) {
             log_error("Failed to load obj model!");
+            exit(1);
             return nullptr;
         }
         obj_models[path] = std::make_shared<obj_loader::ObjData>(data);

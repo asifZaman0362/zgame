@@ -5,6 +5,7 @@
 
 #include "logger.hpp"
 #include "packedlist.hpp"
+#include <unordered_map>
 
 namespace zifmann::zgame::core::input {
 

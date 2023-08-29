@@ -1,7 +1,5 @@
 #include "shader.hpp"
 
-#include <glad/glad.h>
-
 #include <fstream>
 
 #include "logger.hpp"

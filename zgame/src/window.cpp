@@ -1,15 +1,14 @@
 #include "window.hpp"
 
-#include <glad/glad.h>
-
 #include <iostream>
 
 namespace zifmann::zgame::core {
 
 Window create_window(WindowSettings settings) {
     glfwInit();
-    glfwWindowHint(GLFW_VERSION_MAJOR, settings.version_major);
-    glfwWindowHint(GLFW_VERSION_MINOR, settings.version_minor);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, settings.version_major);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, settings.version_minor);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     Window window = glfwCreateWindow(
         settings.width, settings.height, settings.title,
         settings.fullscreen ? glfwGetPrimaryMonitor() : nullptr, nullptr);
@@ -18,10 +17,12 @@ Window create_window(WindowSettings settings) {
         return nullptr;
     }
     glfwMakeContextCurrent(window);
+#ifndef __APPLE__
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cerr << "Failed to load GLAD!" << std::endl;
         return nullptr;
     }
+#endif
     return window;
 }
 

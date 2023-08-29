@@ -1,7 +1,7 @@
 #ifndef SHADER_HPP
 #define SHADER_HPP
 
-#include <glad/glad.h>
+#include "glheader.hpp"
 #include <glm/gtc/type_ptr.hpp>
 
 namespace zifmann::zgame::core::rendering::shader {
