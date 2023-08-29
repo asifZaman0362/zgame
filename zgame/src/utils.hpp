@@ -18,6 +18,16 @@ std::string join_str(const std::vector<std::string> &, const std::string &);
 
 Signature SignatureHelper(int count, ...);
 
+#ifdef __GNUC__
+#define PACK(__Declaration__) __Declaration__ __attribute__((__packed__))
+#endif
+
+#ifdef _MSC_VER
+#define PACK(__Declaration__) \
+    __pragma(pack(push, 1)) __Declaration__ __pragma(pack(pop))
+#endif
+
+
 }  // namespace zifmann::zgame::core::utils
 
 #endif

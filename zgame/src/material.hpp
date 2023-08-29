@@ -2,6 +2,7 @@
 #define ZIFMANN_ZGAME_MATERIAL_HPP
 
 #include "types.hpp"
+#include "utils.hpp"
 
 namespace zifmann::zgame::core::rendering {
 
@@ -16,26 +17,26 @@ struct LitMaterial : public Material {};
 
 struct UnlitMaterial : public Material {};
 
-struct __attribute__((packed)) PbrMaterial : public LitMaterial {
+PACK(struct PbrMaterial : public LitMaterial {
     vec3 diffuse;
     TextureID albedo;
     TextureID normal_map;
     TextureID displacement_map;
     TextureID metallic_map;
     TextureID specular_map;
-};
+});
 
-struct __attribute__((packed)) StandardUnlit : public UnlitMaterial {
+PACK(struct StandardUnlit : public UnlitMaterial {
     vec3 diffuse;
     TextureID albedo;
-};
+});
 
-struct __attribute__((packed)) EmissiveMaterial : public UnlitMaterial {
+PACK(struct EmissiveMaterial : public UnlitMaterial {
     float strength;
     vec3 color;
     TextureID emission_map;
     TextureID albedo;
-};
+});
 
 Material* CreatePbrMaterial(const char* name, const vec3& diffuse,
                             const TextureID albedo, const TextureID specular,

@@ -11,10 +11,10 @@
 extern Coordinator coordinator;
 
 namespace zifmann::zgame::core::rendering {
-struct __attribute__((packed)) Light {
+PACK(struct Light {
     float intensity;
     vec3 color;
-};
+});
 
 class LightingSystem : public ISystem {
     public:
