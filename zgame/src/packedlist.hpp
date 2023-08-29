@@ -21,8 +21,8 @@ class PackedList {
         }
     }
     inline void remove_at(size_t pos) { items[pos] = items[size--]; }
-    std::array<T, N>::iterator begin() { return items.begin(); }
-    std::array<T, N>::iterator end() { return items.begin() + size; }
+    typename std::array<T, N>::iterator begin() { return items.begin(); }
+    typename std::array<T, N>::iterator end() { return items.begin() + size; }
 
    private:
     std::array<T, N> items;
