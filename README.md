@@ -30,7 +30,7 @@ make
 
 #### Windows (Visual Studio 2022)
 Other VS versions may also work but that would require replacing the libraries with the appropriate version compatible with target VS.
-[https://www.glfw.org/download.html](https://www.glfw.org/download.html) the precompiled binary for glfw for windows, look for your target VS version inside the lib folder. Copy the library files into external/lib/windows.
+[Download](https://www.glfw.org/download.html) the precompiled binary for glfw for windows, look for your target VS version inside the lib folder. Copy the library files into external/lib/windows.
 Open the project in Visual Studio and go through the initial CMake setup on screen. Once done, select "zgame.exe" as the executable target and start debugging to build and run.
 
 ### Contributing
