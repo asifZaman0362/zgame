@@ -13,6 +13,8 @@
 
 extern Coordinator coordinator;
 extern glm::mat4 projected_view_matrix;
+extern glm::mat4 view_matrix;
+extern glm::mat4 projection_matrix;
 extern glm::vec3 camera_position;
 extern zifmann::zgame::core::rendering::Light light_source;
 extern zifmann::zgame::core::Transform light_transform;
@@ -34,6 +36,22 @@ mat4 CalculateMvp(Transform* transform) {
     model_matrix = glm::rotate(
         model_matrix, glm::radians(transform->euler_rotation.z), FORWARD);
     return projected_view_matrix * model_matrix;
+}
+
+mat4 ModelMatrix(Transform *transform) {
+    auto scaled_translation = transform->position;
+    scaled_translation.x *= 1 / transform->scale.x;
+    scaled_translation.y *= 1 / transform->scale.y;
+    scaled_translation.z *= 1 / transform->scale.z;
+    auto model_matrix = glm::translate(
+        glm::scale(glm::mat4(1.0f), transform->scale), scaled_translation);
+    model_matrix = glm::rotate(
+        model_matrix, glm::radians(transform->euler_rotation.x), RIGHT);
+    model_matrix = glm::rotate(
+        model_matrix, glm::radians(transform->euler_rotation.y), UP);
+    model_matrix = glm::rotate(
+        model_matrix, glm::radians(transform->euler_rotation.z), FORWARD);
+    return model_matrix;
 }
 
 template<>
@@ -60,7 +78,10 @@ void Renderer<PbrMaterial>::Update(float) {
         auto transform = coordinator.GetComponent<Transform>(entity);
         glUseProgram(material->shader_id);
         glBindVertexArray(mesh->vao);
-        shader::SetUniform(shader, "MVP", CalculateMvp(transform));
+        shader::SetUniform(shader, "model", ModelMatrix(transform));
+        shader::SetUniform(shader, "view", view_matrix);
+        shader::SetUniform(shader, "projection", projection_matrix);
+        //shader::SetUniform(shader, "MVP", CalculateMvp(transform));
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, albedo);
         shader::SetUniform(shader, "ourTexture", glm::vec<1, int>(0));

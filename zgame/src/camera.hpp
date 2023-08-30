@@ -24,6 +24,8 @@ class Camera {
     void set_fov(float fov);
 
     glm::mat4 get_view_matrix();
+    glm::mat4 get_view();
+    glm::mat4 get_projection();
 
    private:
     glm::vec3 m_translation;

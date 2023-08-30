@@ -84,4 +84,27 @@ glm::mat4 Camera::get_view_matrix() {
     matrix = glm::translate(matrix, -m_translation);
     return proj * matrix;
 }
+
+glm::mat4 Camera::get_view() {
+    glm::mat4 matrix = glm::mat4(1.0f);
+
+    matrix = glm::rotate(matrix, -m_rotation_angles.x, RIGHT);
+    matrix = glm::rotate(matrix, -m_rotation_angles.y, UP);
+    matrix = glm::rotate(matrix, -m_rotation_angles.z, FORWARD);
+    matrix = glm::translate(matrix, -m_translation);
+    return matrix;
+}
+
+glm::mat4 Camera::get_projection() {
+    glm::mat4 proj;
+    if (projection == Perspective) {
+        proj = glm::perspective<float>(glm::radians(fov), (aspect_ratio),
+                                       m_clip_dist.x, m_clip_dist.y);
+    } else {
+        proj = glm::ortho(m_ortho_bounds.x, m_ortho_bounds.y, m_ortho_bounds.z,
+                          m_ortho_bounds.w);
+    }
+    return proj;
+}
+
 }  // namespace zifmann::zgame::core

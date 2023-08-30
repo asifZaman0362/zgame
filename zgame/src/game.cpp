@@ -22,6 +22,8 @@ Coordinator coordinator;
 
 glm::vec3 camera_position;
 glm::mat4 projected_view_matrix;
+glm::mat4 projection_matrix;
+glm::mat4 view_matrix;
 
 zifmann::zgame::core::rendering::Light light_source {
     .intensity = 1.0f,
@@ -95,6 +97,8 @@ void render(Window window) {
     transformation = glm::rotate(transformation, -cam_rot.z, glm::vec3(0, 0, 1));
     camera.translate((glm::vec4(movement, 0.0f) * transformation) * dt);
     projected_view_matrix = camera.get_view_matrix();
+    view_matrix = camera.get_view();
+    projection_matrix = camera.get_projection();
     camera_position = camera.get_position();
     coordinator.Update(dt);
     glfwSwapBuffers(window);
