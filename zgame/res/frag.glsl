@@ -1,44 +1,50 @@
 #version 330 core
-in vec2 TexCoord;
-in vec3 Normal;
-in vec3 FragPos;
+out vec4 FragColor;
 
-out vec4 frag;
-
-uniform vec3 lightPos;
-uniform vec3 ambientLight;
-uniform vec3 lightColor;
-uniform vec3 cameraPosition;
-uniform float metallic;
-uniform float smoothness;
+in VS_OUT {
+    vec3 FragPos;
+    vec2 TexCoords;
+    vec3 TangentLightPos;
+    vec3 TangentViewPos;
+    vec3 TangentFragPos;
+} fs_in;
 
 struct Material {
-    uniform sampler2D albedo;
-    uniform sampler2D specularMap;
-    uniform sampler2D normalMap;
-    uniform sampler2D smoothness;
-    uniform vec3 specular;
+    sampler2D diffuseMap;
+    sampler2D normalMap;
+    sampler2D roughnessMap;
+    sampler2D metallicMap;
 };
 
 uniform Material mat;
 
+uniform vec3 lightPos;
+uniform vec3 viewPos;
 
-#define SPEC_STRENGTH 0.5f
-
-void main() {
+void main()
+{           
+     // obtain normal from normal map in range [0,1]
+    vec3 normal = texture(mat.normalMap, fs_in.TexCoords).rgb;
+    // transform normal vector to range [-1,1]
+    normal = normalize(normal * 2.0 - 1.0);  // this normal is in tangent space
+   
+    // get diffuse color
+    vec3 color = texture(mat.diffuseMap, fs_in.TexCoords).rgb;
+    // ambient
+    vec3 ambient = 0.1 * color;
     // diffuse
-    vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(lightPos - FragPos);
-    float diffuse_amount = max(dot(norm, lightDir), 0.0);
-    float base_color = vec3(texture(ourTexture, TexCoord));
-    float diffuse = lightColor * (diffuse_amount * base_color);
-
+    vec3 lightDir = normalize(fs_in.TangentLightPos - fs_in.TangentFragPos);
+    float diff = max(dot(lightDir, normal), 0.0);
+    vec3 metallic = texture(mat.metallicMap, fs_in.TexCoords).rgb;
+    vec3 metallicDiffuse = vec3(1) - metallic;
+    vec3 diffuse = diff * color * (metallicDiffuse + vec3(0.2));
     // specular
-    vec3 view_dir = normalize(cameraPosition - FragPos);
-    vec3 reflection = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflection), 0.0), smoothness);
-    vec3 specular = lightColor * (spec * specularColor);
+    vec3 viewDir = normalize(fs_in.TangentViewPos - fs_in.TangentFragPos);
+    vec3 reflectDir = reflect(-lightDir, normal);
+    vec3 halfwayDir = normalize(lightDir + viewDir);  
+    float roughness = texture(mat.roughnessMap, fs_in.TexCoords).r;
+    float spec = pow(max(dot(normal, halfwayDir), 0.0), 32 + 128 * roughness) * metallic.r * (1 - roughness);
 
-    // result
-    frag = vec4(ambient + diffuse + specular, 1.0f);
+    vec3 specular = vec3(1) * spec;
+    FragColor = vec4(ambient + diffuse + specular, 1.0);
 }

@@ -106,15 +106,20 @@ void render(Window window) {
 }
 
 void create_mesh() {
-    auto obj = AssetManager::LoadObjModel("res/sphere.obj");
+    auto obj = AssetManager::LoadObjModel("res/cube.obj");
     if (!obj) {
         exit(-1);
     }
-    unsigned texture = AssetManager::LoadTexture("res/tex.png")->get_id();
+    unsigned diff = AssetManager::LoadTexture("res/diff.jpg")->get_id();
+    unsigned normal =
+        AssetManager::LoadTexture("res/normal.jpg")->get_id();
+    unsigned metal = AssetManager::LoadTexture("res/metal.jpg")->get_id();
+    unsigned rough = AssetManager::LoadTexture("res/roughness.jpg")->get_id();
     auto mesh = new rendering::Mesh();
     CreateMesh(mesh, obj->data, obj->indices);
     auto shared_material = rendering::CreatePbrMaterial(
-        "default", glm::vec3(0.0f, 1.0f, 0.0f), texture, 0, 0, 0, 0, 1, 64);
+        "default", rendering::PbrWorkflowType::Specular,
+        glm::vec3(1.0f, 1.0f, 1.0f), diff, metal, normal, 0, rough, 1, 64);
     mesh_renderer = {mesh, shared_material};
 }
 
@@ -191,6 +196,7 @@ void set_callbacks(Window window) {
 }
 
 int start() {
+    logger::init();
     WindowSettings settings{};
     Window window = create_window(settings);
     if (!window) {
@@ -200,7 +206,7 @@ int start() {
     coordinator.RegisterComponent<rendering::MeshRenderer>();
     coordinator.RegisterComponent<Transform>();
     coordinator.LoadSystem<rendering::Renderer<rendering::PbrMaterial>>();
-    //coordinator.LoadSystem<RotationSystem>();
+    // coordinator.LoadSystem<RotationSystem>();
     for (int i = 0; i < 100; i++) {
         Entity e = coordinator.CreateEntity();
         Transform transform = GetRandomTransform();
@@ -223,6 +229,7 @@ int start() {
         process_input(window);
         render(window);
     }
+    logger::flush();
     DeleteMesh(mesh_renderer.mesh);
     close_window(window);
     return EXIT_SUCCESS;
