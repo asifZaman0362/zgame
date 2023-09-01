@@ -11,8 +11,7 @@
 #include "shader.hpp"
 
 
-extern Coordinator coordinator;
-extern glm::mat4 projected_view_matrix;
+extern Coordinator coordinator; extern glm::mat4 projected_view_matrix;
 extern glm::mat4 view_matrix;
 extern glm::mat4 projection_matrix;
 extern glm::vec3 camera_position;
@@ -71,9 +70,12 @@ void Renderer<PbrMaterial>::Update(float) {
         auto diffuse = material->diffuse;
         auto albedo = material->albedo;
         auto normal = material->normal_map;
-        auto displacement = material->displacement_map;
-        auto metallic = material->metallic_map;
-        auto specular = material->specular_map;
+        //auto displacement = material->displacement_map;
+        //auto metallic = material->metallic_map;
+        //auto specular = material->specular_map;
+        float specular = material->specular;
+        auto metallic = material->metallic;
+        auto smoothness = material->smoothness;
         auto mesh = mesh_renderer->mesh;
         auto transform = coordinator.GetComponent<Transform>(entity);
         glUseProgram(material->shader_id);
@@ -90,6 +92,9 @@ void Renderer<PbrMaterial>::Update(float) {
         shader::SetUniform(shader, "ambientLight", ambient);
         shader::SetUniform(shader, "diffuseColor", diffuse);
         shader::SetUniform(shader, "cameraPosition", camera_position);
+        shader::SetUniform(shader, "metallic", glm::vec<1, float>(metallic));
+        shader::SetUniform(shader, "smoothness", glm::vec<1, float>(smoothness));
+        shader::SetUniform(shader, "specular_strength", glm::vec<1, float>(specular));
         glDrawElements(GL_TRIANGLES, mesh->triangle_count, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
     }

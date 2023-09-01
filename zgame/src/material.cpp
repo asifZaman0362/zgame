@@ -1,19 +1,27 @@
 #include "material.hpp"
+
 #include "assetmanager.hpp"
 
 namespace zifmann::zgame::core::rendering {
-Material* CreatePbrMaterial(const char* name, const vec3& diffuse, const TextureID albedo,
-                            const TextureID specular, const TextureID normal,
+Material* CreatePbrMaterial(const char* name, const vec3& diffuse,
+                            const TextureID albedo,
+                            const TextureID specular_map,
+                            const TextureID normal,
                             const TextureID displacement,
-                            const TextureID metallic) {
+                            const TextureID metallic, const float specular,
+                            const float smoothness) {
     auto material = AssetManager::LoadMaterial<PbrMaterial>(name);
-    auto shader = AssetManager::LoadShaderProgram("res/vert.glsl", "res/frag.glsl");
+    auto shader =
+        AssetManager::LoadShaderProgram("res/vert.glsl", "res/frag.glsl");
     material->shader_id = shader;
     material->diffuse = diffuse;
     material->albedo = albedo;
-    material->specular_map = specular;    
-    material->metallic_map = metallic;
-    material->displacement_map = displacement;
+    // material->specular_map = specular;
+    // material->metallic_map = metallic;
+    // material->displacement_map = displacement;
+    material->metallic = metallic;
+    material->smoothness = smoothness;
+    material->specular = specular;
     material->normal_map = normal;
     return material.get();
 }

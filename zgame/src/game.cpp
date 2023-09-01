@@ -1,4 +1,5 @@
 #include "game.hpp"
+
 #include "material.hpp"
 
 #define GLFW_INCLUDE_NONE
@@ -13,10 +14,10 @@
 #include "mesh.hpp"
 #include "obj.hpp"
 #include "renderer.hpp"
+#include "transform.hpp"
 #include "types.hpp"
 #include "utils.hpp"
 #include "window.hpp"
-#include "transform.hpp"
 
 Coordinator coordinator;
 
@@ -25,16 +26,14 @@ glm::mat4 projected_view_matrix;
 glm::mat4 projection_matrix;
 glm::mat4 view_matrix;
 
-zifmann::zgame::core::rendering::Light light_source {
+zifmann::zgame::core::rendering::Light light_source{
     .intensity = 1.0f,
-    .color = { 1.0f, 0.8f, 0.65 },
+    .color = {1.0f, 1.0f, 1.0f},
 };
-zifmann::zgame::core::Transform light_transform {
-    .position = { 1.0f, 0.0f, 0.0f },
-    .euler_rotation = glm::vec3(0),
-    .scale = glm::vec3(1)
-};
-glm::vec3 ambient = { 0.1f, 0.1f, 0.2f };
+zifmann::zgame::core::Transform light_transform{.position = {1.0f, 0.0f, 0.0f},
+                                                .euler_rotation = glm::vec3(0),
+                                                .scale = glm::vec3(1)};
+glm::vec3 ambient = {0.1f, 0.1f, 0.2f};
 
 #include <random>
 
@@ -62,7 +61,6 @@ float dx = 0, dy = 0;
 
 #define GLFW_KEY(WIN, KEY) glfwGetKey(WIN, KEY) == GLFW_PRESS
 
-
 void process_input(Window window) {
     glfwPollEvents();
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
@@ -78,7 +76,7 @@ void render(Window window) {
     float currentTime = (float)glfwGetTime();
     float dt = currentTime - prevFrameTime;
     float fps = 1 / dt;
-    //zifmann::logger::log_debug("FPS: %f", fps);
+    // zifmann::logger::log_debug("FPS: %f", fps);
     prevFrameTime = currentTime;
     glClearColor(0.5f, 0.4f, 0.8f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -92,9 +90,12 @@ void render(Window window) {
     glm::vec3 cam_rot = camera.get_rotation();
     glm::vec3 movement(input_x, 0, input_y);
     glm::mat4 transformation(1.0f);
-    transformation = glm::rotate(transformation, -cam_rot.x, glm::vec3(1, 0, 0));
-    transformation = glm::rotate(transformation, -cam_rot.y, glm::vec3(0, 1, 0));
-    transformation = glm::rotate(transformation, -cam_rot.z, glm::vec3(0, 0, 1));
+    transformation =
+        glm::rotate(transformation, -cam_rot.x, glm::vec3(1, 0, 0));
+    transformation =
+        glm::rotate(transformation, -cam_rot.y, glm::vec3(0, 1, 0));
+    transformation =
+        glm::rotate(transformation, -cam_rot.z, glm::vec3(0, 0, 1));
     camera.translate((glm::vec4(movement, 0.0f) * transformation) * dt);
     projected_view_matrix = camera.get_view_matrix();
     view_matrix = camera.get_view();
@@ -105,19 +106,20 @@ void render(Window window) {
 }
 
 void create_mesh() {
-    auto obj = AssetManager::LoadObjModel("res/cube.obj");
+    auto obj = AssetManager::LoadObjModel("res/sphere.obj");
     if (!obj) {
         exit(-1);
     }
     unsigned texture = AssetManager::LoadTexture("res/tex.png")->get_id();
     auto mesh = new rendering::Mesh();
     CreateMesh(mesh, obj->data, obj->indices);
-    auto shared_material = rendering::CreatePbrMaterial("default", glm::vec3(0.0f, 1.0f, 0.0f), texture, 0, 0, 0, 0);
-    mesh_renderer = { mesh, shared_material };
+    auto shared_material = rendering::CreatePbrMaterial(
+        "default", glm::vec3(0.0f, 1.0f, 0.0f), texture, 0, 0, 0, 0, 1, 64);
+    mesh_renderer = {mesh, shared_material};
 }
 
-class CameraController : public input::KeyListener, public input::MouseListener {
-
+class CameraController : public input::KeyListener,
+                         public input::MouseListener {
     void OnKeyPress(int key, int mods) override {
         if (key == GLFW_KEY_W) {
             input_y = -1;
@@ -148,7 +150,6 @@ class CameraController : public input::KeyListener, public input::MouseListener 
         dx = _dx;
         dy = _dy;
     }
-
 };
 
 class RotationSystem : public ISystem {
@@ -158,8 +159,7 @@ class RotationSystem : public ISystem {
     void Update(float dt) override {
         float time = (float)glfwGetTime();
         for (auto entity : m_entities) {
-            auto transform =
-                coordinator.GetComponent<Transform>(entity);
+            auto transform = coordinator.GetComponent<Transform>(entity);
             transform->euler_rotation =
                 glm::vec3(1.0f, 1.0f, 1.0f) * time * 10.0f;
         }
@@ -200,7 +200,7 @@ int start() {
     coordinator.RegisterComponent<rendering::MeshRenderer>();
     coordinator.RegisterComponent<Transform>();
     coordinator.LoadSystem<rendering::Renderer<rendering::PbrMaterial>>();
-    coordinator.LoadSystem<RotationSystem>();
+    //coordinator.LoadSystem<RotationSystem>();
     for (int i = 0; i < 100; i++) {
         Entity e = coordinator.CreateEntity();
         Transform transform = GetRandomTransform();
