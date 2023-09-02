@@ -17,6 +17,7 @@ Window create_window(WindowSettings settings) {
         return nullptr;
     }
     glfwMakeContextCurrent(window);
+    glfwSwapInterval(0);
 #ifndef __APPLE__
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cerr << "Failed to load GLAD!" << std::endl;

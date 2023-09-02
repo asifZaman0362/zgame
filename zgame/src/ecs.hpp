@@ -14,7 +14,7 @@
 #include <utility>
 
 #define MAX_COMPONENTS 32
-#define MAX_ENTITIES 100000
+#define MAX_ENTITIES 1000000
 
 using Entity = size_t;
 using Signature = std::bitset<MAX_COMPONENTS>;

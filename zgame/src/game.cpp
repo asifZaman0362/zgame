@@ -76,7 +76,7 @@ void render(Window window) {
     float currentTime = (float)glfwGetTime();
     float dt = currentTime - prevFrameTime;
     float fps = 1 / dt;
-    // zifmann::logger::log_debug("FPS: %f", fps);
+    zifmann::logger::log_debug("FPS: %f", fps);
     prevFrameTime = currentTime;
     glClearColor(0.5f, 0.4f, 0.8f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -196,7 +196,7 @@ void set_callbacks(Window window) {
 }
 
 int start() {
-    logger::init();
+    //logger::init();
     WindowSettings settings{};
     Window window = create_window(settings);
     if (!window) {
@@ -205,9 +205,9 @@ int start() {
     create_mesh();
     coordinator.RegisterComponent<rendering::MeshRenderer>();
     coordinator.RegisterComponent<Transform>();
-    coordinator.LoadSystem<rendering::Renderer<rendering::PbrMaterial>>();
-    // coordinator.LoadSystem<RotationSystem>();
-    for (int i = 0; i < 100; i++) {
+    //coordinator.LoadSystem<rendering::Renderer<rendering::PbrMaterial>>();
+    coordinator.LoadSystem<RotationSystem>();
+    for (int i = 0; i < 1000000; i++) {
         Entity e = coordinator.CreateEntity();
         Transform transform = GetRandomTransform();
         coordinator.AddComponent<Transform>(e, transform);
@@ -229,7 +229,7 @@ int start() {
         process_input(window);
         render(window);
     }
-    logger::flush();
+    //logger::flush();
     DeleteMesh(mesh_renderer.mesh);
     close_window(window);
     return EXIT_SUCCESS;
